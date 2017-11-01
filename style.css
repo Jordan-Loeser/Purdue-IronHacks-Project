@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif; }
+
+.c-navbar__main-navbar {
+  height: 75px;
+  background: #24292e; }
+.c-navbar__sub-navbar {
+  height: 50px;
+  background: black; }
+
+/*# sourceMappingURL=style.css.map */

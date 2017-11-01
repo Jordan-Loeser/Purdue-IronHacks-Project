@@ -1,0 +1,10 @@
+&navbar {
+    &__main-navbar {
+        height: 75px;
+        background: $gray;
+    }
+    &__sub-navbar {
+        height: 50px;
+        background: darken($gray, 50%);
+    }
+}

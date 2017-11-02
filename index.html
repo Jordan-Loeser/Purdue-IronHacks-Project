@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html lang='en'>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>IronHacks</title>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>NYUmove</title>
 
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
 
-      <header class="c-navbar">
-          <div class="c-navbar__main-navbar">
-          </div>
-          <div class="c-navbar__sub-navbar">
-          </div>
-      </div>
+        <!-- NAVIGATION -->
+        <header class="c-navbar">
+            <nav class="c-navbar__main-navbar">
+            </nav>
+            <nav class="c-navbar__sub-navbar">
+            </nav>
+        </header>
 
-  </body>
+        <!-- MAIN BODY -->
+        <div class="o-container">
+            <div class="c-search-results"></div>
+            <div class="c-map-container">
+                <div id="map" class="c-map-container__google-map">
+            </div>
+        </div>
+
+        <!-- SCRIPTS -->
+        <script src="js/maps.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHE0lAn-7FI1Hv1IUJ1YogzQwb_VDV4OA&callback=initMap" async defer></script>
+
+    </body>
 </html>

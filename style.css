@@ -3,11 +3,37 @@ body {
   padding: 0;
   font-family: sans-serif; }
 
-.c-navbar__main-navbar {
-  height: 75px;
-  background: #24292e; }
-.c-navbar__sub-navbar {
-  height: 50px;
-  background: black; }
+.c-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0; }
+  .c-navbar__main-navbar {
+    height: 75px;
+    background: #17263c; }
+  .c-navbar__sub-navbar {
+    height: 50px;
+    background: #101a2a; }
+.c-map-container {
+  height: 100%;
+  margin-left: 400px;
+  background: #17263c; }
+  .c-map-container__google-map {
+    height: 100%;
+    width: 100%; }
+.c-search-results {
+  background: #17263c;
+  height: 100%;
+  width: 400px;
+  position: absolute;
+  left: 0; }
+
+.o-container {
+  background: #17263c;
+  position: fixed;
+  top: 125px;
+  bottom: 0;
+  left: 0;
+  right: 0; }
 
 /*# sourceMappingURL=style.css.map */

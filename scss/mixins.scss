@@ -1,0 +1,10 @@
+@mixin bp($point) {
+    @media (min-width: $point) { @content; }
+}
+
+@mixin transform($transformation) {
+    //@media (min-width: $point) { @content; }
+    -webkit-transform: $transformation;
+        -ms-transform: $transformation;
+            transform: $transformation;
+}

@@ -1,4 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+**Author:** Jordan Loeser, Purdue University Electrical Engineering 2020
+
+**Keywords:** Civic Hacking, Open Data, Google Maps, Web App, JavaScript
+
+**Description:** A map tool to help students searching for rental properties near NYU Stern School of Business, created as a part of the Purdue Golden IronHacks competition.
 
 ## Developer Experience
 * This project uses [BEMIT naming conventions](https://csswizardry.com/2015/08/bemit-taking-the-bem-naming-convention-a-step-further/) which help organize the code into a readable and modular structure.
@@ -24,9 +28,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   * Show walking/driving/transit directions from home to school
 
 ### Datasets to include
-* Climate Data
-* Zillow Median Rental Price - One Bedroom (1 set Per Neighborhood/ZIP Code)
-*
+* [Climate Data](https://www.ncdc.noaa.gov/cdo-web/webservices/v2)
+* [Zillow Median Rental Price - One Bedroom](https://www.quandl.com/data/ZILLOW-Zillow-Real-Estate-Research?keyword=ny) (1 set Per Neighborhood/ZIP Code)
 
 ### Data Visualizations
 * Chart of Climate Data over time

@@ -7,6 +7,8 @@
         <title>NYUmove</title>
 
         <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet">
+
     </head>
     <body>
 
@@ -20,13 +22,24 @@
 
         <!-- MAIN BODY -->
         <div class="o-container">
-            <div class="c-search-results"></div>
+            <div class="c-search-results">
+                <div class="c-logo"><h1>NYUmove</h1></div>
+                <div class="c-welcome-message">
+                    <h2>There are <span class="num-rooms">257</span> rooms for rent near the NYU Stern school of business.</h2>
+                    <!--<h3>Use the filters above to find the perfect one for you.</h3>-->
+                </div>
+                <div class="c-data-container"></div>
+            </div>
             <div class="c-map-container">
-                <div id="map" class="c-map-container__google-map">
+                <div id="map" class="c-map-container__google-map"></div>
             </div>
         </div>
 
         <!-- SCRIPTS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <script src="https://d3js.org/d3.v3.min.js"></script>
+        <!--<script src="js/climate.js"></script>-->
         <script src="js/maps.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHE0lAn-7FI1Hv1IUJ1YogzQwb_VDV4OA&callback=initMap" async defer></script>
 

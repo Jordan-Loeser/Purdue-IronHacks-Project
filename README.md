@@ -28,7 +28,7 @@
   * Show walking/driving/transit directions from home to school
 
 ### Datasets to include
-* [Climate Data](https://www.ncdc.noaa.gov/cdo-web/webservices/v2)
+* [Climate Data](https://www.ncdc.noaa.gov/cdo-web/webservices/v2) -> [Documentation](https://www1.ncdc.noaa.gov/pub/data/cdo/documentation/NORMAL_MLY_documentation.pdf)
 * [Zillow Median Rental Price - One Bedroom](https://www.quandl.com/data/ZILLOW-Zillow-Real-Estate-Research?keyword=ny) (1 set Per Neighborhood/ZIP Code)
 
 ### Data Visualizations

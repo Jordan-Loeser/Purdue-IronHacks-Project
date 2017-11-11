@@ -207,18 +207,15 @@ function initMap() {
 function markNeighborhoodPrices() {
     $.ajax({
         type : "GET",
-        url : "data/quandl-neighborhoods.json",
+        url : "https://cdn.rawgit.com/Jordan-Loeser/Purdue-IronHacks-Project/916f0767/data/quandl-neighborhoods-ny.json",
         success : function(result) {
             var i = 0;
             for(var k in result) {
-               if(result[k].area[1] == "NY") {
-                   code = result[k].code.toString();
-                   nycNeighbohoodData.push(result[k]); // Add Quandl Code to master data
-                   getRecentNeighborhoodPriceData(code, i, addToNeighborhoodData); // Add price data to master data
-                   i++;
-               }
+               code = result[k].code.toString();
+               nycNeighbohoodData.push(result[k]); // Add Quandl Code to master data
+               //getRecentNeighborhoodPriceData(code, i, addToNeighborhoodData); // Add price data to master data
+               i++;
             }
-            console.log(nycNeighbohoodData);
         },
         error : function(result) {
             console.log("Could not access neighborhood code data.");

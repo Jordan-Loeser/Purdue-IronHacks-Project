@@ -1,4 +1,8 @@
 var nyuStern = {lat: 40.7291, lng: -73.9965};
+var neighborhoodMarkers = [];
+var nycNeighbohoodData = [];
+var map;
+
 var nightStyle = [
     {
         "featureType": "all",
@@ -164,7 +168,7 @@ var nightStyle = [
 /* Google Maps Functions */
 function initMap() {
 
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         center: nyuStern,
         zoom: 14,
         styles: nightStyle
@@ -172,7 +176,8 @@ function initMap() {
 
     var schoolMarker = new google.maps.Marker({
           position: nyuStern,
-          animation: google.maps.Animation.DROP,
+          title: 'NYU Stern School of Business',
+          animation: google.maps.Animation.BOUNCE,
           map: map
     });
 
@@ -180,44 +185,64 @@ function initMap() {
     var transitLayer = new google.maps.TransitLayer();
     transitLayer.setMap(map);
 
-    //markNeighborhoodPrices();
-    markNeighborhoods();
+    map.data.loadGeoJson('data/nieghborhoods.geojson', null, function (features) {
+        // STARTPOINT: https://stackoverflow.com/questions/40904882/clustering-markers-from-geojson-using-google-maps
+        var markers = features.map(function (feature) {
+            var g = feature.getGeometry();
+            var marker = new google.maps.Marker({'position': g.get(0), 'title': feature.f.name });
+            return marker;
+        });
+        var markerCluster = new MarkerClusterer(map, markers, {
+            gridSize: 43,
+            maxZoom: 15,
+            imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m'
+        });
+        map.data.setMap(null); // Hide Clustered Markers
+    });
+
+    markNeighborhoodPrices();
 }
 
 /* Data Functions */
-function readJSON(file) {
-    var request = new XMLHttpRequest();
-    request.open('GET', file, false);
-    request.send(null);
-    if (request.status == 200)
-        return request.responseText;
-}
-
-function markNeighborhoods() {
-    var neighborhoods = readJSON('../data/neighborhoods.json');
-    console.log(neighborhoods);
-}
-
-/*
 function markNeighborhoodPrices() {
-    var prices = getRecentNeighborhoodPriceData("9");
+    $.ajax({
+        type : "GET",
+        url : "data/quandl-neighborhoods.json",
+        success : function(result) {
+            var i = 0;
+            for(var k in result) {
+               if(result[k].area[1] == "NY") {
+                   code = result[k].code.toString();
+                   nycNeighbohoodData.push(result[k]); // Add Quandl Code to master data
+                   getRecentNeighborhoodPriceData(code, i, addToNeighborhoodData); // Add price data to master data
+                   i++;
+               }
+            }
+            console.log(nycNeighbohoodData);
+        },
+        error : function(result) {
+            console.log("Could not access neighborhood code data.");
+            console.log(result);
+        }
+     });
 }
 
-function getRecentNeighborhoodPriceData(neighborhoodNum) {
+function addToNeighborhoodData(data, index, key) {
+    nycNeighbohoodData[index][key] = data;
+}
+
+function getRecentNeighborhoodPriceData(neighborhoodNum, index, callback) {
     var quandlApiKey = 'DuYURBziJDiFLYygufyL';
     $.ajax({
        type : "GET",
        url : "https://www.quandl.com/api/v3/datasets/ZILLOW/N"+neighborhoodNum+"_MRP1B.json?api_key="+quandlApiKey,
        success : function(result) {
            var priceData = result.dataset.data;
-           console.log(priceData[0]);
-           return priceData[0];
+           callback(priceData[0], index, "price");
        },
        error : function(result) {
            console.log("Could not access pricing data.");
-           console.log(result);
+           //console.log(result);
        }
      });
-
 }
-*/

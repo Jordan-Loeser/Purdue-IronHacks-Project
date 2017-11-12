@@ -19,6 +19,7 @@ h2 {
   margin-bottom: 1em; }
 
 h3 {
+  color: #1effbc;
   font-size: 16px;
   font-weight: 400;
   margin: 0;
@@ -43,6 +44,60 @@ h3 {
   .c-map-container__google-map {
     height: 100%;
     width: 100%; }
+  body.loading .c-map-container__loader {
+    background: #0d19a3;
+    position: fixed;
+    left: 400px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100; }
+    body.loading .c-map-container__loader .loader-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      text-align: center;
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%); }
+      body.loading .c-map-container__loader .loader-container h2 {
+        margin-top: 1em; }
+    body.loading .c-map-container__loader .square {
+      border: 5px solid #1effbc;
+      width: 50px;
+      height: 50px;
+      display: block;
+      margin: 0 auto;
+      -webkit-animation-name: spin;
+      -webkit-animation-duration: 1500ms;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-timing-function: ease-in-out;
+      -moz-animation-name: spin;
+      -moz-animation-duration: 1500ms;
+      -moz-animation-iteration-count: infinite;
+      -moz-animation-timing-function: ease-in-out;
+      -ms-animation-name: spin;
+      -ms-animation-duration: 1500ms;
+      -ms-animation-iteration-count: infinite;
+      -ms-animation-timing-function: ease-in-out;
+      -o-transition: rotate(3600deg); }
+  body.loaded .c-map-container__loader {
+    display: none; }
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg); }
+  to {
+    -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(360deg); } }
+@keyframes spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
 .c-search-results {
   background: #0e1bae;
   height: 100%;
@@ -59,9 +114,11 @@ h3 {
 .c-welcome-message {
   padding: 0px 20px;
   border-bottom: 1px solid #101fc6; }
-  .c-welcome-message h2 .num-rooms {
-    font-style: italic;
-    color: #1effbc; }
+  .c-welcome-message h2 {
+    margin-bottom: 0.5em; }
+    .c-welcome-message h2 .num-rooms {
+      font-style: italic;
+      color: #1effbc; }
 .c-data-container {
   height: 100px;
   padding: 0px 20px; }

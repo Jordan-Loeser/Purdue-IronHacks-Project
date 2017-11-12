@@ -1,6 +1,7 @@
 var nyuStern = {lat: 40.7291, lng: -73.9965};
 var neighborhoodMarkers = [];
 var nycNeighbohoodData = [];
+var failedNums = [];
 var map;
 
 var nightStyle = [
@@ -187,7 +188,7 @@ function initMap() {
 
     map.data.loadGeoJson('data/nieghborhoods.geojson', null, function (features) {
         // STARTPOINT: https://stackoverflow.com/questions/40904882/clustering-markers-from-geojson-using-google-maps
-        var markers = features.map(function (feature) {
+         markers = features.map(function (feature) {
             var g = feature.getGeometry();
             var marker = new google.maps.Marker({'position': g.get(0), 'title': feature.f.name });
             return marker;
@@ -205,17 +206,52 @@ function initMap() {
 
 /* Data Functions */
 function markNeighborhoodPrices() {
+    // Check if Data has Been Updated in the Past Month
+    var currentDate = new Date();
+    if (localStorage) { // Check if local data is supported
+        var lastUpdated = new Date(localStorage.getItem("lastUpdated"));
+        var localData = JSON.parse(localStorage.getItem("localNeighboroodData"));
+        if (localStorage.getItem("lastUpdated") != null && lastUpdated.getMonth() >= currentDate.getMonth()) {
+            console.log("Data was updated on " + localStorage.getItem("lastUpdated") + ". Not updating Data.");
+            nycNeighbohoodData = localData;
+            console.log("Stored Data:\n");
+            console.log(nycNeighbohoodData);
+            stopLoader();
+        } else {
+            console.log("Data was updated on " + localStorage.getItem("lastUpdated") + ". Data will be updated.");
+            updatePriceData();
+        }
+    }
+    else {
+        console.log("Local storage not found. Gathering live data.");
+        updatePriceData();
+    }
+}
+
+function updatePriceData() {
     $.ajax({
         type : "GET",
-        url : "https://cdn.rawgit.com/Jordan-Loeser/Purdue-IronHacks-Project/916f0767/data/quandl-neighborhoods-ny.json",
+        url : "https://cdn.rawgit.com/Jordan-Loeser/Purdue-IronHacks-Project/d100f235/data/quandl-neighborhoods-ny.json",
         success : function(result) {
-            var i = 0;
             for(var k in result) {
                code = result[k].code.toString();
                nycNeighbohoodData.push(result[k]); // Add Quandl Code to master data
-               //getRecentNeighborhoodPriceData(code, i, addToNeighborhoodData); // Add price data to master data
-               i++;
+               getRecentNeighborhoodPriceData(code, k, addToNeighborhoodData); // Add price data to master data
             }
+            // Store the Data Locally
+            if (localStorage) {
+                var dateUpdated = new Date();
+                localStorage.setItem("lastUpdated", dateUpdated);
+                localStorage.setItem("localNeighboroodData", JSON.stringify(nycNeighbohoodData));
+            } else {
+                console.log("Local storage is not available.");
+            }
+            console.log("Updated Data:\n")
+            console.log(nycNeighbohoodData);
+
+            // Which codes are failing?
+            console.log(failedNums);
+            stopLoader();
         },
         error : function(result) {
             console.log("Could not access neighborhood code data.");
@@ -230,16 +266,21 @@ function addToNeighborhoodData(data, index, key) {
 
 function getRecentNeighborhoodPriceData(neighborhoodNum, index, callback) {
     var quandlApiKey = 'DuYURBziJDiFLYygufyL';
-    $.ajax({
-       type : "GET",
-       url : "https://www.quandl.com/api/v3/datasets/ZILLOW/N"+neighborhoodNum+"_MRP1B.json?api_key="+quandlApiKey,
-       success : function(result) {
-           var priceData = result.dataset.data;
-           callback(priceData[0], index, "price");
-       },
-       error : function(result) {
-           console.log("Could not access pricing data.");
-           //console.log(result);
-       }
-     });
+        // Collect Price Data
+        var xhr = new XMLHttpRequest();
+        var url = "https://www.quandl.com/api/v3/datasets/ZILLOW/N"+neighborhoodNum+"_ZRIAH.json?api_key="+quandlApiKey;
+        xhr.open("GET", url, false);
+        xhr.send();
+        var json = JSON.parse(xhr.responseText);
+        if(xhr.status == 200) {
+            callback([json.dataset.data[0], json.dataset.data[1]], index, "price");
+        }
+        else {
+            failedNums.push(neighborhoodNum);
+        }
+}
+
+function stopLoader() {
+    document.body.className = document.body.className.replace("loading","loaded");
+    console.log("Loader Stopped!");
 }

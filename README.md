@@ -4,6 +4,13 @@
 
 **Description:** A map tool to help students searching for rental properties near NYU Stern School of Business, created as a part of the Purdue Golden IronHacks competition.
 
+### In Phase 3
+* :white_check_mark: Added Marker Clustering (Zoom Out to See)
+* :white_check_mark: Added Local Data Storage for Pricing Data
+* :white_check_mark: Used GeoJSON to Map NYC Neighborhoods
+* :white_check_mark: Added Loading Animation
+
+
 ## Developer Experience
 * This project uses [BEMIT naming conventions](https://csswizardry.com/2015/08/bemit-taking-the-bem-naming-convention-a-step-further/) which help organize the code into a readable and modular structure.
 * This project uses a RESTful API structure to optimize server interfacing.

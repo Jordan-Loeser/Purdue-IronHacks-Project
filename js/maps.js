@@ -1,7 +1,7 @@
 var nyuStern = {lat: 40.7291, lng: -73.9965};
 var neighborhoodMarkers = [];
 var nycNeighbohoodData = [];
-var failedNums = [];
+var failedNeighborhoodCodes = [];
 var map;
 
 var nightStyle = [
@@ -188,7 +188,7 @@ function initMap() {
 
     map.data.loadGeoJson('data/nieghborhoods.geojson', null, function (features) {
         // STARTPOINT: https://stackoverflow.com/questions/40904882/clustering-markers-from-geojson-using-google-maps
-         markers = features.map(function (feature) {
+        markers = features.map(function (feature) {
             var g = feature.getGeometry();
             var marker = new google.maps.Marker({'position': g.get(0), 'title': feature.f.name });
             return marker;
@@ -211,7 +211,8 @@ function markNeighborhoodPrices() {
     if (localStorage) { // Check if local data is supported
         var lastUpdated = new Date(localStorage.getItem("lastUpdated"));
         var localData = JSON.parse(localStorage.getItem("localNeighboroodData"));
-        if (localStorage.getItem("lastUpdated") != null && lastUpdated.getMonth() >= currentDate.getMonth()) {
+        // See if Data Has been Stored Previously & If it is over a month old
+        if (0){//(localStorage.getItem("lastUpdated") != null && lastUpdated.getMonth() >= currentDate.getMonth()) {
             console.log("Data was updated on " + localStorage.getItem("lastUpdated") + ". Not updating Data.");
             nycNeighbohoodData = localData;
             console.log("Stored Data:\n");
@@ -250,7 +251,7 @@ function updatePriceData() {
             console.log(nycNeighbohoodData);
 
             // Which codes are failing?
-            console.log(failedNums);
+            console.log(failedNeighborhoodCodes);
             stopLoader();
         },
         error : function(result) {
@@ -260,24 +261,26 @@ function updatePriceData() {
      });
 }
 
-function addToNeighborhoodData(data, index, key) {
-    nycNeighbohoodData[index][key] = data;
-}
-
 function getRecentNeighborhoodPriceData(neighborhoodNum, index, callback) {
     var quandlApiKey = 'DuYURBziJDiFLYygufyL';
-        // Collect Price Data
-        var xhr = new XMLHttpRequest();
-        var url = "https://www.quandl.com/api/v3/datasets/ZILLOW/N"+neighborhoodNum+"_ZRIAH.json?api_key="+quandlApiKey;
-        xhr.open("GET", url, false);
-        xhr.send();
-        var json = JSON.parse(xhr.responseText);
-        if(xhr.status == 200) {
+    // Collect Price Data
+    var xhr = new XMLHttpRequest();
+    var url = "https://www.quandl.com/api/v3/datasets/ZILLOW/N"+neighborhoodNum+"_ZRIAH.json?api_key="+quandlApiKey;
+    xhr.onload = function() {
+        var json = JSON.parse(this.responseText);
+        if(this.status == 200) {
             callback([json.dataset.data[0], json.dataset.data[1]], index, "price");
         }
         else {
-            failedNums.push(neighborhoodNum);
+            failedNeighborhoodCodes.push(neighborhoodNum);
         }
+    }
+    xhr.open("GET", url, false);
+    xhr.send();
+}
+
+function addToNeighborhoodData(data, index, key) {
+    nycNeighbohoodData[index][key] = data;
 }
 
 function stopLoader() {

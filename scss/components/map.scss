@@ -22,7 +22,28 @@
             text-align: center;
             @include transform(translate(-50%, -50%));
             h2 {
-                margin-top: 1em;
+                margin-top: 1.5em;
+                &:after {
+                    content: "";
+                    display: block;
+                    height: 2px;
+                    width: 100%;
+                    background: $accent;
+                    margin-top: 3px;
+
+                    -webkit-animation-name: tape;
+                    -webkit-animation-duration: 3000ms;
+                    -webkit-animation-iteration-count: infinite;
+                    -webkit-animation-timing-function: ease-in-out;
+                    -moz-animation-name: tape;
+                    -moz-animation-duration: 3000ms;
+                    -moz-animation-iteration-count: infinite;
+                    -moz-animation-timing-function: ease-in-out;
+                    -ms-animation-name: tape;
+                    -ms-animation-duration: 3000ms;
+                    -ms-animation-iteration-count: infinite;
+                    -ms-animation-timing-function: ease-in-out;
+                }
             }
         }
 
@@ -32,6 +53,7 @@
             height: 50px;
             display: block;
             margin: 0 auto;
+
             -webkit-animation-name: spin;
             -webkit-animation-duration: 1500ms;
             -webkit-animation-iteration-count: infinite;
@@ -53,14 +75,33 @@
 }
 
 @-moz-keyframes spin {
-    from { -moz-transform: rotate(0deg); }
-    to { -moz-transform: rotate(360deg); }
+    0% { -moz-transform: rotate(0deg); }
+    50% { border-radius: 0px 100%; background: $accent; }// box-shadow: 0px 0px 50px $light;}
+    100% { -moz-transform: rotate(360deg); }
 }
 @-webkit-keyframes spin {
-    from { -webkit-transform: rotate(0deg); }
-    to { -webkit-transform: rotate(360deg); }
+    0% { -webkit-transform: rotate(0deg); }
+    50% { border-radius: 0px 100%; background: $accent; }// box-shadow: 0px 0px 50px $light;}
+    100% { -webkit-transform: rotate(360deg); }
 }
 @keyframes spin {
-    from {transform:rotate(0deg);}
-    to {transform:rotate(360deg);}
+    0% {transform:rotate(0deg);}
+    50% { border-radius: 0px 100%; background: $accent; }// box-shadow: 0px 0px 50px $light;}
+    100% {transform:rotate(360deg);}
+}
+
+@keyframes tape {
+    0% {width: 0%; margin-left: 0;}
+    50% {width: 100%; margin-left: 0;}
+    100% {width: 0%; margin-left: 100%;}
+}
+@-moz-keyframes tape {
+    0% {width: 0%; margin-left: 0;}
+    50% {width: 100%; margin-left: 0;}
+    100% {width: 0%; margin-left: 100%;}
+}
+@-webkit-keyframes tape {
+    0% {width: 0%; margin-left: 0;}
+    50% {width: 100%; margin-left: 0;}
+    100% {width: 0%; margin-left: 100%;}
 }

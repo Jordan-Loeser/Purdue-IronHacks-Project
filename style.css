@@ -61,7 +61,26 @@ h3 {
       -ms-transform: translate(-50%, -50%);
       transform: translate(-50%, -50%); }
       body.loading .c-map-container__loader .loader-container h2 {
-        margin-top: 1em; }
+        margin-top: 1.5em; }
+        body.loading .c-map-container__loader .loader-container h2:after {
+          content: "";
+          display: block;
+          height: 2px;
+          width: 100%;
+          background: #1effbc;
+          margin-top: 3px;
+          -webkit-animation-name: tape;
+          -webkit-animation-duration: 3000ms;
+          -webkit-animation-iteration-count: infinite;
+          -webkit-animation-timing-function: ease-in-out;
+          -moz-animation-name: tape;
+          -moz-animation-duration: 3000ms;
+          -moz-animation-iteration-count: infinite;
+          -moz-animation-timing-function: ease-in-out;
+          -ms-animation-name: tape;
+          -ms-animation-duration: 3000ms;
+          -ms-animation-iteration-count: infinite;
+          -ms-animation-timing-function: ease-in-out; }
     body.loading .c-map-container__loader .square {
       border: 5px solid #1effbc;
       width: 50px;
@@ -84,20 +103,59 @@ h3 {
   body.loaded .c-map-container__loader {
     display: none; }
 @-moz-keyframes spin {
-  from {
+  0% {
     -moz-transform: rotate(0deg); }
-  to {
+  50% {
+    border-radius: 0px 100%;
+    background: #1effbc; }
+  100% {
     -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin {
-  from {
+  0% {
     -webkit-transform: rotate(0deg); }
-  to {
+  50% {
+    border-radius: 0px 100%;
+    background: #1effbc; }
+  100% {
     -webkit-transform: rotate(360deg); } }
 @keyframes spin {
-  from {
+  0% {
     transform: rotate(0deg); }
-  to {
+  50% {
+    border-radius: 0px 100%;
+    background: #1effbc; }
+  100% {
     transform: rotate(360deg); } }
+@keyframes tape {
+  0% {
+    width: 0%;
+    margin-left: 0; }
+  50% {
+    width: 100%;
+    margin-left: 0; }
+  100% {
+    width: 0%;
+    margin-left: 100%; } }
+@-moz-keyframes tape {
+  0% {
+    width: 0%;
+    margin-left: 0; }
+  50% {
+    width: 100%;
+    margin-left: 0; }
+  100% {
+    width: 0%;
+    margin-left: 100%; } }
+@-webkit-keyframes tape {
+  0% {
+    width: 0%;
+    margin-left: 0; }
+  50% {
+    width: 100%;
+    margin-left: 0; }
+  100% {
+    width: 0%;
+    margin-left: 100%; } }
 .c-search-results {
   background: #0e1bae;
   height: 100%;

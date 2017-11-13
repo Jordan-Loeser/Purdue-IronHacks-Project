@@ -28,7 +28,9 @@
                     <h2>There are <span class="num-rooms">254</span> neighborhoods surrounding the NYU Stern school of business.</h2>
                     <h3>Which one will you call home?</h3>
                 </div>
-                <div class="c-data-container"></div>
+                <div class="c-data-container">
+                    <div id="c-search-results"></div>
+                </div>
             </div>
             <div class="c-map-container">
                 <div class="c-map-container__loader">
@@ -43,12 +45,17 @@
 
         <!-- SCRIPTS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/react/16.1.0/umd/react.production.min.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.1.0/umd/react-dom.production.min.js"></script>
         <script src="https://d3js.org/d3.v3.min.js"></script>
         <!--<script src="js/climate.js"></script>-->
+        <script src="js/data.js"></script>
         <script src="js/maps.js"></script>
+        <script src="js/search.js"></script>
+
         <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_XLZMoGOVc-T7w20lblWjF-piFtXIIzs&callback=initMap" async defer></script>
+
 
     </body>
 </html>

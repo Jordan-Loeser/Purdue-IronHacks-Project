@@ -1,16 +1,15 @@
 /* Data Functions */
-function markNeighborhoodPrices() {
+function getNeighborhoodData() {
     // Check if Data has Been Updated in the Past Month
     var currentDate = new Date();
     if (localStorage) { // Check if local data is supported
         var lastUpdated = new Date(localStorage.getItem("lastUpdated"));
         var localData = JSON.parse(localStorage.getItem("localNeighboroodData"));
         // See if Data Has been Stored Previously & If it is over a month old
-        if (localStorage.getItem("lastUpdated") != null && lastUpdated.getMonth() >= currentDate.getMonth()) {
-            console.log("Data was updated on " + localStorage.getItem("lastUpdated") + ". Not updating Data.");
+        if (0){//(localStorage.getItem("lastUpdated") != null && lastUpdated.getMonth() >= currentDate.getMonth()) {
+            console.log("Data was last updated on " + localStorage.getItem("lastUpdated") + ". Not updating Data.");
             nycNeighbohoodData = localData;
-            console.log("Stored Data:\n");
-            console.log(nycNeighbohoodData);
+            console.log('Stored Data:', nycNeighbohoodData);
             stopLoader();
         } else {
             console.log("Data was updated on " + localStorage.getItem("lastUpdated") + ". Data will be updated.");
@@ -26,13 +25,19 @@ function markNeighborhoodPrices() {
 function updatePriceData() {
     $.ajax({
         type : "GET",
-        url : "https://cdn.rawgit.com/Jordan-Loeser/Purdue-IronHacks-Project/d100f235/data/quandl-neighborhoods-ny.json",
+        url : "https://raw.githubusercontent.com/Jordan-Loeser/Purdue-IronHacks-Project/master/data/quandl-neighborhoods-ny.json",
         success : function(result) {
+
+            result = JSON.parse(result);
+
             for(var k in result) {
                code = result[k].code.toString();
+               neighborhood = result[k].area[0];
                nycNeighbohoodData.push(result[k]); // Add Quandl Code to master data
-               getRecentNeighborhoodPriceData(code, k, addToNeighborhoodData); // Add price data to master data
+               getNeighborhoodLocation(neighborhood, k, addToNeighborhoodData);
+               //getRecentNeighborhoodPriceData(code, k, addToNeighborhoodData); // Add price data to master datan
             }
+
             // Store the Data Locally
             if (localStorage) {
                 var dateUpdated = new Date();
@@ -43,9 +48,7 @@ function updatePriceData() {
             }
             console.log("Updated Data:\n")
             console.log(nycNeighbohoodData);
-
-            // Which codes are failing?
-            console.log(failedNeighborhoodCodes);
+            console.log("Adding Safety Data:");
             stopLoader();
         },
         error : function(result) {
@@ -55,7 +58,21 @@ function updatePriceData() {
      });
 }
 
-function getRecentNeighborhoodPriceData(neighborhoodNum, index, callback) {
+function getNeighborhoodLocation(neighborhood, index, processFunc) {
+
+    name = neighborhood.toLowerCase();
+    for (var i = 0; i < neighborhoodMarkers.length ; i++)
+    {
+        marker = neighborhoodMarkers[i];
+        if (marker.title.toLowerCase() === name) {
+            processFunc(marker.getPosition().toJSON(), index, "coordinate");
+            return;
+        }
+    }
+    console.log("Error`getNeighborhoodLocation()`: No Location Found: " + neighborhood);
+}
+
+function getRecentNeighborhoodPriceData(neighborhoodNum, index, processFunc) {
     var quandlApiKey = 'DuYURBziJDiFLYygufyL';
     // Collect Price Data
     var xhr = new XMLHttpRequest();
@@ -63,9 +80,9 @@ function getRecentNeighborhoodPriceData(neighborhoodNum, index, callback) {
     xhr.onload = function() {
         var json = JSON.parse(this.responseText);
         if(this.status == 200) {
-            callback([json.dataset.data[0], json.dataset.data[1]], index, "price");
+            processFunc([json.dataset.data[0], json.dataset.data[1]], index, "price");
         }
-        else {
+        if(this.status == 404) {
             failedNeighborhoodCodes.push(neighborhoodNum);
         }
     }
@@ -75,6 +92,11 @@ function getRecentNeighborhoodPriceData(neighborhoodNum, index, callback) {
 
 function addToNeighborhoodData(data, index, key) {
     nycNeighbohoodData[index][key] = data;
+}
+
+function calculateSafety() {
+    //google.maps.geometry.poly.containsLocation(latLng,polygon)
+
 }
 
 function stopLoader() {

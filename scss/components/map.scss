@@ -1,6 +1,10 @@
 &map-container {
-    height: 100%;
-    margin-left: 400px;
+    position: fixed;
+    z-index: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
     background: $blue;
     &__google-map {
         height: 100%;
@@ -9,11 +13,11 @@
     body.loading &__loader {
         background: $blue;
         position: fixed;
-        left: 400px;
+        left: 0;
         right: 0;
         top: 0;
         bottom: 0;
-        z-index: 100;
+        z-index: 1000;
 
         .loader-container {
             position: absolute;
@@ -53,6 +57,7 @@
             height: 50px;
             display: block;
             margin: 0 auto;
+            @include transform(translate3d(0,0,0));
 
             -webkit-animation-name: spin;
             -webkit-animation-duration: 1500ms;

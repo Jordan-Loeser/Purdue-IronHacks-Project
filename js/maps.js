@@ -1,5 +1,7 @@
+//***** MANAGES MAP *****//
 var nyuStern = {lat: 40.7291, lng: -73.9965};
 var neighborhoodMarkers = [];
+var fireStationMarkers = [];
 var nycNeighbohoodData = [];
 var failedNeighborhoodCodes = [];
 var map;
@@ -169,25 +171,34 @@ var nightStyle = [
 /* Google Maps Functions */
 function initMap() {
 
-    map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(d3.select("#map").node(), {
         center: nyuStern,
         zoom: 14,
-        styles: nightStyle
+        disableDefaultUI: true,
+            zoomControl: true,
+            mapTypeControl: true,
+                mapTypeControlOptions: {
+                    mapTypeIds: ['roadmap', 'satellite'],
+                    position: google.maps.ControlPosition.BOTTOM_CENTER
+                },
+            scaleControl: false,
+            streetViewControl: true,
+            rotateControl: false,
+            fullscreenControl: false,
+        styles: nightStyle,
     });
 
     var schoolMarker = new google.maps.Marker({
           position: nyuStern,
           title: 'NYU Stern School of Business',
-          //animation: google.maps.Animation.BOUNCE,
+          animation: google.maps.Animation.DROP,
           icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: 10,
+            path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+            scale: 9,
             strokeColor: '#1effbc'
           },
           map: map
     });
-
-
 
     // Add Support for Transit Views
     var transitLayer = new google.maps.TransitLayer();
@@ -195,8 +206,9 @@ function initMap() {
 
     map.data.loadGeoJson('data/nieghborhoods.geojson', null, function (features) {
         // STARTPOINT: https://stackoverflow.com/questions/40904882/clustering-markers-from-geojson-using-google-maps
-        markers = features.map(function (feature) {
+        neighborhoodMarkers = features.map(function (feature) {
             var g = feature.getGeometry();
+
             var marker = new google.maps.Marker({
                 'position': g.get(0),
                 icon: {
@@ -211,13 +223,57 @@ function initMap() {
             });
             return marker;
         });
-        var markerCluster = new MarkerClusterer(map, markers, {
+        var markerCluster = new MarkerClusterer(map, neighborhoodMarkers, {
             gridSize: 43,
             maxZoom: 15,
             imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m'
         });
+
         map.data.setMap(null); // Hide Clustered Markers
     });
 
-    markNeighborhoodPrices();
+    $.ajax({
+        type : "GET",
+        url : 'https://data.cityofnewyork.us/resource/byk8-bdfw.json',
+        success : function(stations) {
+            console.log('stations', stations);
+            for(var s = 0; s < stations.length; s++) {
+                var station = stations[s];
+                var slat = parseFloat(station.latitude);
+                var slng = parseFloat(station.longitude);
+                var stationMarker = new google.maps.Marker({
+                    position: {lat: slat, lng: slng},
+                    title: station.facilityname,
+                    icon: {
+                      path: google.maps.SymbolPath.CIRCLE,
+                      scale: 3,
+                      fillOpacity: 0.7,
+                      fillColor: 'red',
+                      strokeWeight: 0
+                    },
+                    map: map
+                });
+                fireStationMarkers.push(stationMarker);
+            }
+            console.log('station markers', fireStationMarkers);
+            getNeighborhoodData();
+        },
+        error : function(result) {
+            console.log("Fire Station Data could not be Loaded.");
+        }
+    });
+
+}
+
+
+var circle;
+function drawCircle(radius) {
+    circle = new google.maps.Circle({
+        center:nyuStern,
+        radius: radius,
+        fillOpacity: 0.15,
+        fillColor: "#1effbc",
+        strokeColor: "#1effbc",
+        map: map
+    });
 }

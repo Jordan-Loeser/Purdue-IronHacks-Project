@@ -1,7 +1,8 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif; }
+  font-family: sans-serif;
+  box-sizing: border-box; }
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
@@ -25,21 +26,13 @@ h3 {
   margin: 0;
   margin-bottom: 2em; }
 
-.c-navbar {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0; }
-  .c-navbar__main-navbar {
-    height: 75px;
-    background: #0e1bae; }
-  .c-navbar__sub-navbar {
-    height: 50px;
-    background: #0c1796; }
 .c-map-container {
-  height: 100%;
-  margin-left: 400px;
+  position: fixed;
+  z-index: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
   background: #0d19a3; }
   .c-map-container__google-map {
     height: 100%;
@@ -47,11 +40,11 @@ h3 {
   body.loading .c-map-container__loader {
     background: #0d19a3;
     position: fixed;
-    left: 400px;
+    left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: 100; }
+    z-index: 1000; }
     body.loading .c-map-container__loader .loader-container {
       position: absolute;
       top: 50%;
@@ -87,6 +80,9 @@ h3 {
       height: 50px;
       display: block;
       margin: 0 auto;
+      -webkit-transform: translate3d(0, 0, 0);
+      -ms-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
       -webkit-animation-name: spin;
       -webkit-animation-duration: 1500ms;
       -webkit-animation-iteration-count: infinite;
@@ -156,30 +152,52 @@ h3 {
   100% {
     width: 0%;
     margin-left: 100%; } }
-.c-search-results {
+.c-search-sidebar {
   background: #0e1bae;
-  height: 100%;
-  width: 400px;
-  position: absolute;
-  left: 0; }
+  width: 300px;
+  position: fixed;
+  left: 50px;
+  top: 50px;
+  bottom: 50px;
+  z-index: 500; }
 .c-logo {
   color: #1effbc;
-  padding: 40px 20px 0px; }
+  padding: 30px;
+  position: fixed;
+  z-index: 100;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.65+0,0+100;Neutral+Density */ }
   .c-logo h1 {
     display: inline-block;
     padding-bottom: 3px;
-    border-bottom: 2px solid; }
+    border-bottom: 2px solid;
+    text-shadow: 0px 0px 40px #000;
+    margin: 0; }
 .c-welcome-message {
-  padding: 0px 20px;
+  position: fixed;
+  width: 300px;
+  box-sizing: border-box;
+  top: 50px;
+  right: 50px;
+  z-index: 500;
+  padding: 40px 20px 0px;
+  background: #101fc6;
   border-bottom: 1px solid #101fc6; }
   .c-welcome-message h2 {
     margin-bottom: 0.5em; }
     .c-welcome-message h2 .num-rooms {
       font-style: italic;
       color: #1effbc; }
-.c-data-container {
-  height: 100px;
-  padding: 0px 20px; }
+.c-search-results {
+  overflow: scroll;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 88px; }
+  .c-search-results .o-neighborhood-listing {
+    padding: 0px 30px;
+    margin: 0px 10px 10px;
+    border: 1px solid #101fc6; }
 .c-data-container .bar {
   fill: steelblue; }
 .c-data-container .bar:hover {

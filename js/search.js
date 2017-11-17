@@ -1,11 +1,21 @@
-$(document).ready(function(){
+//***** MANAGES SEARCH FILTERING *****//
+
+$(window).on("load", function(){
+
     const e = React.createElement;
 
     class Neighborhood extends React.Component {
         render() {
             const hood = this.props.neighborhood;
             const name = hood.area[0]
-            return e('div', null, `Hood: ${name}`);
+            var price = null;
+            if(hood.price) {
+                price = e('p', null, hood.price[0][1]);
+            }
+            return e('div', {className: 'o-neighborhood-listing'},
+                e('h4', null, `Hood: ${name}`),
+                price
+            );
         }
     }
 
@@ -19,7 +29,7 @@ $(document).ready(function(){
             );
         });
 
-        console.log(rows);
+        //console.log(rows);
 
         return (rows);
       }
@@ -29,5 +39,33 @@ $(document).ready(function(){
       e(NeighborhoodList, {neighborhoods: nycNeighbohoodData}, null),
       document.getElementById('c-search-results')
     );
+
+    class NameForm extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {value: ''};
+
+            this.handleChange = this.handleChange.bind(this);
+            this.handleSubmit = this.handleSubmit.bind(this);
+        }
+
+        handleChange(event) {
+            this.setState({value: event.target.value});
+        }
+
+        handleSubmit(event) {
+            alert('A name was submitted: ' + this.state.value);
+            event.preventDefault();
+        }
+
+        render() {
+            return e('form', {onSubmit: this.handleSubmit},
+                e('label', null,
+                    e('input', {type: 'text', value: this.state.value, onChange: this.handleChange})
+                ),
+                e('input', {type: 'submit', value: 'Submit'})
+            );
+        }
+    }
 
 });

@@ -6,7 +6,7 @@ function getNeighborhoodData() {
         var lastUpdated = new Date(localStorage.getItem("lastUpdated"));
         var localData = JSON.parse(localStorage.getItem("localNeighboroodData"));
         // See if Data Has been Stored Previously & If it is over a month old
-        if (0){//(localStorage.getItem("lastUpdated") != null && lastUpdated.getMonth() >= currentDate.getMonth()) {
+        if (localStorage.getItem("lastUpdated") != null && lastUpdated.getMonth() >= currentDate.getMonth()) {
             console.log("Data was last updated on " + localStorage.getItem("lastUpdated") + ". Not updating Data.");
             nycNeighborhoodData = localData;
             console.log('Stored Data:', nycNeighborhoodData);
@@ -28,16 +28,13 @@ function updatePriceData() {
         url : "https://raw.githubusercontent.com/Jordan-Loeser/Purdue-IronHacks-Project/master/data/quandl-neighborhoods-ny.json",
         success : function(result) {
 
-            result = JSON.parse(result);
+            nycNeighborhoodData = JSON.parse(result);
 
-            for(var k in result) {
-               code = result[k].code.toString();
-               neighborhood = result[k].area[0];
-               nycNeighborhoodData.push(result[k]); // Add Quandl Code to master data
-               getNeighborhoodLocation(neighborhood, k, addToNeighborhoodData);
-               //getRecentNeighborhoodPriceData(code, k, addToNeighborhoodData); // Add price data to master datan
+            // Update Price Data
+            for(var k in nycNeighborhoodData) {
+               code = nycNeighborhoodData[k].code.toString();
+               getRecentNeighborhoodPriceData(code, k, addToNeighborhoodData); // Add price data to master datan
             }
-            alert(JSON.stringify(nycNeighborhoodData));
 
             // Store the Data Locally
             if (localStorage) {
@@ -47,9 +44,7 @@ function updatePriceData() {
             } else {
                 console.log("Local storage is not available.");
             }
-            console.log("Updated Data:\n")
-            console.log(nycNeighborhoodData);
-            console.log("Adding Safety Data:");
+            console.log('Updated Data:', nycNeighborhoodData);
             stopLoader();
         },
         error : function(result) {

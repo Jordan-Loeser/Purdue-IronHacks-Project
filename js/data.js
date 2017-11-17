@@ -8,8 +8,8 @@ function getNeighborhoodData() {
         // See if Data Has been Stored Previously & If it is over a month old
         if (0){//(localStorage.getItem("lastUpdated") != null && lastUpdated.getMonth() >= currentDate.getMonth()) {
             console.log("Data was last updated on " + localStorage.getItem("lastUpdated") + ". Not updating Data.");
-            nycNeighbohoodData = localData;
-            console.log('Stored Data:', nycNeighbohoodData);
+            nycNeighborhoodData = localData;
+            console.log('Stored Data:', nycNeighborhoodData);
             stopLoader();
         } else {
             console.log("Data was updated on " + localStorage.getItem("lastUpdated") + ". Data will be updated.");
@@ -33,21 +33,22 @@ function updatePriceData() {
             for(var k in result) {
                code = result[k].code.toString();
                neighborhood = result[k].area[0];
-               nycNeighbohoodData.push(result[k]); // Add Quandl Code to master data
+               nycNeighborhoodData.push(result[k]); // Add Quandl Code to master data
                getNeighborhoodLocation(neighborhood, k, addToNeighborhoodData);
                //getRecentNeighborhoodPriceData(code, k, addToNeighborhoodData); // Add price data to master datan
             }
+            alert(JSON.stringify(nycNeighborhoodData));
 
             // Store the Data Locally
             if (localStorage) {
                 var dateUpdated = new Date();
                 localStorage.setItem("lastUpdated", dateUpdated);
-                localStorage.setItem("localNeighboroodData", JSON.stringify(nycNeighbohoodData));
+                localStorage.setItem("localNeighboroodData", JSON.stringify(nycNeighborhoodData));
             } else {
                 console.log("Local storage is not available.");
             }
             console.log("Updated Data:\n")
-            console.log(nycNeighbohoodData);
+            console.log(nycNeighborhoodData);
             console.log("Adding Safety Data:");
             stopLoader();
         },
@@ -91,7 +92,7 @@ function getRecentNeighborhoodPriceData(neighborhoodNum, index, processFunc) {
 }
 
 function addToNeighborhoodData(data, index, key) {
-    nycNeighbohoodData[index][key] = data;
+    nycNeighborhoodData[index][key] = data;
 }
 
 function calculateSafety() {

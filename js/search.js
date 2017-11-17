@@ -36,7 +36,7 @@ $(window).on("load", function(){
     }
 
     ReactDOM.render(
-      e(NeighborhoodList, {neighborhoods: nycNeighbohoodData}, null),
+      e(NeighborhoodList, {neighborhoods: nycNeighborhoodData}, null),
       document.getElementById('c-search-results')
     );
 

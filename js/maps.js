@@ -2,7 +2,7 @@
 var nyuStern = {lat: 40.7291, lng: -73.9965};
 var neighborhoodMarkers = [];
 var fireStationMarkers = [];
-var nycNeighbohoodData = [];
+var nycNeighborhoodData = [];
 var failedNeighborhoodCodes = [];
 var map;
 

@@ -13,16 +13,16 @@ function getNeighborhoodData() {
             stopLoader();
         } else {
             console.log("Data was updated on " + localStorage.getItem("lastUpdated") + ". Data will be updated.");
-            updatePriceData();
+            download_and_store_neighborhood_data();
         }
     }
     else {
-        console.log("Local storage not found. Gathering live data.");
-        updatePriceData();
+        console.log("Local storage not supported. Gathering live data.");
+        download_and_store_neighborhood_data();
     }
 }
 
-function updatePriceData() {
+function download_and_store_neighborhood_data() {
     $.ajax({
         type : "GET",
         url : "https://raw.githubusercontent.com/Jordan-Loeser/Purdue-IronHacks-Project/master/data/quandl-neighborhoods-ny.json",
@@ -33,7 +33,8 @@ function updatePriceData() {
             // Update Price Data
             for(var k in nycNeighborhoodData) {
                code = nycNeighborhoodData[k].code.toString();
-               getRecentNeighborhoodPriceData(code, k, addToNeighborhoodData); // Add price data to master datan
+               getRecentNeighborhoodPriceData(code, k, addToNeighborhoodData); // Add price data to master data
+               calculateSafety(k, addToNeighborhoodData);
             }
 
             // Store the Data Locally
@@ -90,9 +91,27 @@ function addToNeighborhoodData(data, index, key) {
     nycNeighborhoodData[index][key] = data;
 }
 
-function calculateSafety() {
-    //google.maps.geometry.poly.containsLocation(latLng,polygon)
+function calculateSafety(index, processFunc) {
+    var fireScore = getFireScore(index, processFunc);
+}
 
+function getFireScore(index, processFunc) {
+    var radius = 1.5 * 1609.34; // meters
+    var coor = nycNeighborhoodData[index].coordinate;
+    var _nCord = new google.maps.LatLng(coor.lat, coor.lng);
+    var fireScore = 0;
+
+    //drawCircle(radius, _nCord);
+
+    for(var i = 0; i < fireStationMarkers.length; i++) {
+        var _sCord = fireStationMarkers[i].position;
+        dist = google.maps.geometry.spherical.computeDistanceBetween(_nCord, _sCord);
+        if(dist <= radius) {
+            fireScore++;
+        }
+    }
+    processFunc(fireScore, index, 'fireScore');
+    return fireScore;
 }
 
 function stopLoader() {

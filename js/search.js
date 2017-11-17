@@ -9,12 +9,20 @@ $(window).on("load", function(){
             const hood = this.props.neighborhood;
             const name = hood.area[0]
             var price = null;
+            var safety = null;
+            //console.log(hood);
             if(hood.price) {
-                price = e('p', null, hood.price[0][1]);
+                price = e('p', null, `$${hood.price[0][1]}`);
+            }
+            if(hood.fireScore) {
+                safety = e('p', null, `Safety Score: ${hood.fireScore}`);
+            } else {
+                safety = e('p', null, `Safety: No Score Available`);
             }
             return e('div', {className: 'o-neighborhood-listing'},
                 e('h4', null, `Hood: ${name}`),
-                price
+                price,
+                safety
             );
         }
     }

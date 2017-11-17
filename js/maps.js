@@ -1,6 +1,7 @@
 //***** MANAGES MAP *****//
 var nyuStern = {lat: 40.7291, lng: -73.9965};
 var neighborhoodMarkers = [];
+var schoolMarkers = [];
 var fireStationMarkers = [];
 var nycNeighborhoodData = [];
 var failedNeighborhoodCodes = [];
@@ -188,7 +189,7 @@ function initMap() {
         styles: nightStyle,
     });
 
-    var schoolMarker = new google.maps.Marker({
+    var nyuMarker = new google.maps.Marker({
           position: nyuStern,
           title: 'NYU Stern School of Business',
           animation: google.maps.Animation.DROP,
@@ -232,11 +233,41 @@ function initMap() {
         map.data.setMap(null); // Hide Clustered Markers
     });
 
+    // Load School Markers (and Safety)
+    $.ajax({
+        type : "GET",
+        url : 'https://data.cityofnewyork.us/resource/sm8b-9vim.json',
+        success : function(schools) {
+            for(var s = 0; s < schools.length; s++) {
+                var school = schools[s];
+                var slat = parseFloat(school.latitude);
+                var slng = parseFloat(school.longitude);
+                var schoolMarker = new google.maps.Marker({
+                    position: {lat: slat, lng: slng},
+                    title: school.locationname,
+                    icon: {
+                      path: google.maps.SymbolPath.CIRCLE,
+                      scale: 3,
+                      fillOpacity: 0.7,
+                      fillColor: '#DAA520',
+                      strokeWeight: 0
+                    },
+                    map: map
+                });
+                schoolMarkers.push(schoolMarker);
+            }
+            console.log('School Markers', schoolMarkers);
+        },
+        error : function(result) {
+            console.log("School Safety Data could not be Loaded.");
+        }
+    });
+
+    // Load firestation markers
     $.ajax({
         type : "GET",
         url : 'https://data.cityofnewyork.us/resource/byk8-bdfw.json',
         success : function(stations) {
-            console.log('stations', stations);
             for(var s = 0; s < stations.length; s++) {
                 var station = stations[s];
                 var slat = parseFloat(station.latitude);
@@ -255,8 +286,8 @@ function initMap() {
                 });
                 fireStationMarkers.push(stationMarker);
             }
-            console.log('station markers', fireStationMarkers);
-            getNeighborhoodData();
+            console.log('Fire Station Markers', fireStationMarkers);
+            getNeighborhoodData(); // Run Calculations Once Everything is Updated
         },
         error : function(result) {
             console.log("Fire Station Data could not be Loaded.");
@@ -265,11 +296,10 @@ function initMap() {
 
 }
 
-
 var circle;
-function drawCircle(radius) {
+function drawCircle(radius, center) {
     circle = new google.maps.Circle({
-        center:nyuStern,
+        center:center,
         radius: radius,
         fillOpacity: 0.15,
         fillColor: "#1effbc",

@@ -34,7 +34,7 @@ function download_and_store_neighborhood_data() {
             for(var k in nycNeighborhoodData) {
                code = nycNeighborhoodData[k].code.toString();
                //getRecentNeighborhoodPriceData(code, k, addToNeighborhoodData); // Add price data to master data
-               calculateSafety(k, 1.5, addToNeighborhoodData);
+               calculateSafety(k, 1, addToNeighborhoodData);
             }
 
             // Store the Data Locally
@@ -97,9 +97,20 @@ function calculateSafety(index, radiusMiles, processFunc) {
     Category                        Weight
     -                               -
     fireScore                       5
+    schoolSafetyScore               5
     */
     var fireScore = getFireScore(index, radiusMiles, processFunc);
     var schoolSafetyScore = getSchoolSafetyScore(index, radiusMiles, processFunc);
+    var safetyScore;
+    if(schoolSafetyScore != null) {
+        safetyScore = (fireScore + schoolSafetyScore) / 2;
+    }
+    else {
+        safetyScore = fireScore;
+    }
+    safetyScore = Math.round(safetyScore * 100) / 100;
+    processFunc(safetyScore, index, 'safetyScore');
+
 }
 
 function getFireScore(index, radiusMiles, processFunc) {
@@ -111,6 +122,7 @@ function getFireScore(index, radiusMiles, processFunc) {
     var coor = nycNeighborhoodData[index].coordinate;
     var _nCord = new google.maps.LatLng(coor.lat, coor.lng);
     var fireScore = 0;
+    var numStations = 0;
 
     //drawCircle(radius, _nCord);
 
@@ -118,10 +130,24 @@ function getFireScore(index, radiusMiles, processFunc) {
         var _sCord = fireStationMarkers[i].position;
         dist = google.maps.geometry.spherical.computeDistanceBetween(_nCord, _sCord);
         if(dist <= radius) {
-            fireScore++;
+            numStations++;
         }
     }
-    fireScore *= 5;
+    if(numStations >= 4) {
+        fireScore = 5;
+    }
+    else if(numStations >= 3) {
+        fireScore = 4;
+    }
+    else if(numStations >= 2) {
+        fireScore = 3;
+    }
+    else if(numStations >= 1) {
+        fireScore = 2;
+    }
+    else {
+        fireScore = 0;
+    }
     processFunc(fireScore, index, 'fireScore');
     return fireScore;
 }
@@ -139,6 +165,7 @@ function getSchoolSafetyScore(index, radiusMiles, processFunc) {
     var coor = nycNeighborhoodData[index].coordinate;
     var _nCord = new google.maps.LatLng(coor.lat, coor.lng);
     var safetyScore = 0;
+    var violenceScore = 0;
     var numSchools = 0;
 
     //drawCircle(radius, _nCord);
@@ -148,16 +175,34 @@ function getSchoolSafetyScore(index, radiusMiles, processFunc) {
         var major, violent, property, schoolScore;
         dist = google.maps.geometry.spherical.computeDistanceBetween(_nCord, _sCord);
         if(dist <= radius) {
-            numSchools++;
+            numSchools+=1;
             major = schoolData[i].major_n;
             violent = schoolData[i].vio_n;
             property = schoolData[i].prop_n;
-            schoolScore = (major * 1) + (violent * 1) + (property * 1);
-            safetyScore += schoolScore;
+            violenceScore += (major + violent + property);
         }
     }
-    //safetyScore = safetyScore / numSchools;
-    processFunc(safetyScore, index, 'safetyScore');
+    processFunc(numSchools, index, 'numSchools');
+    if(numSchools != 0) {
+        if(violenceScore < 5) {
+            safetyScore = 5;
+        }
+        else if(violenceScore > 10) {
+            safetyScore = 4;
+        }
+        else if(violenceScore > 20) {
+            safetyScore = 3;
+        }
+        else if(violenceScore > 30) {
+            safetyScore = 2;
+        }
+        else if(violenceScore > 40) {
+            safetyScore = 1;
+        }
+    } else {
+        safetyScore = null;
+    }
+    processFunc(safetyScore, index, 'schoolSafetyScore');
     return safetyScore;
 }
 

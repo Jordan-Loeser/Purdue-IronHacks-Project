@@ -195,6 +195,7 @@ h3 {
   right: 0;
   top: 88px; }
   .c-search-results .o-neighborhood-listing {
+    cursor: pointer;
     padding: 0px 30px;
     margin: 0px 10px 10px;
     border: 1px solid #101fc6; }

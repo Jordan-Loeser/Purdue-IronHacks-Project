@@ -26,8 +26,8 @@ $(window).on("load", function(){
             if(hood.price) {
                 price = e('p', null, `$${hood.price[0][1]}`);
             }
-            if(hood.fireScore) {
-                safety = e('p', null, `Safety Score: ${hood.fireScore}`);
+            if(hood.safetyScore) {
+                safety = e('p', null, `Safety Score: ${hood.safetyScore}`);
             } else {
                 safety = e('p', null, `Safety: No Score Available`);
             }

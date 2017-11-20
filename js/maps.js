@@ -42,6 +42,8 @@ function initMap() {
           map: map
     });
 
+    //drawCircle(40233.6, nyuMarker.getPosition() );
+
     // Add Support for Transit Views
     var transitLayer = new google.maps.TransitLayer();
     transitLayer.setMap(map);
@@ -86,7 +88,7 @@ function initMap() {
                     var slng = parseFloat(school.longitude);
                     var schoolMarker = new google.maps.Marker({
                         position: {lat: slat, lng: slng},
-                        title: school.locationname,
+                        title: school.location_name,
                         icon: {
                           path: google.maps.SymbolPath.CIRCLE,
                           scale: 3,
@@ -144,7 +146,7 @@ function initMap() {
 function navigateOnMap(coor){
 	map.setZoom(14);
     var _cCord = new google.maps.LatLng(coor.lat, coor.lng);
-    drawCircle(1.5 * 1609.34, _cCord);
+    drawCircle(1 * 1609.34, _cCord);
 	map.setCenter(_cCord);
 	//$(curmk).trigger("click");
 	return;

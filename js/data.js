@@ -6,7 +6,7 @@ function getNeighborhoodData() {
         var lastUpdated = new Date(localStorage.getItem("lastUpdated"));
         var localData = JSON.parse(localStorage.getItem("localNeighboroodData"));
         // See if Data Has been Stored Previously & If it is over a month old
-        if (localStorage.getItem("lastUpdated") != null && lastUpdated.getMonth() >= currentDate.getMonth()) {
+        if (0){//(localStorage.getItem("lastUpdated") != null && lastUpdated.getMonth() >= currentDate.getMonth()) {
             console.log("Data was last updated on " + localStorage.getItem("lastUpdated") + ". Not updating Data.");
             nycNeighborhoodData = localData;
             console.log('Stored Data:', nycNeighborhoodData);
@@ -33,8 +33,8 @@ function download_and_store_neighborhood_data() {
             // Update Price Data
             for(var k in nycNeighborhoodData) {
                code = nycNeighborhoodData[k].code.toString();
-               getRecentNeighborhoodPriceData(code, k, addToNeighborhoodData); // Add price data to master data
-               calculateSafety(k, addToNeighborhoodData);
+               //getRecentNeighborhoodPriceData(code, k, addToNeighborhoodData); // Add price data to master data
+               calculateSafety(k, 1.5, addToNeighborhoodData);
             }
 
             // Store the Data Locally
@@ -91,12 +91,23 @@ function addToNeighborhoodData(data, index, key) {
     nycNeighborhoodData[index][key] = data;
 }
 
-function calculateSafety(index, processFunc) {
-    var fireScore = getFireScore(index, processFunc);
+function calculateSafety(index, radiusMiles, processFunc) {
+    // http://it.toolbox.com/blogs/enterprise-solutions/constructing-a-weighted-matrix-13125
+    /*
+    Category                        Weight
+    -                               -
+    fireScore                       5
+    */
+    var fireScore = getFireScore(index, radiusMiles, processFunc);
+    var schoolSafetyScore = getSchoolSafetyScore(index, radiusMiles, processFunc);
 }
 
-function getFireScore(index, processFunc) {
-    var radius = 1.5 * 1609.34; // meters
+function getFireScore(index, radiusMiles, processFunc) {
+    /*
+    Criteria                       Weight
+    # of stations w/in Radius      5
+    */
+    var radius = radiusMiles * 1609.34; // meters
     var coor = nycNeighborhoodData[index].coordinate;
     var _nCord = new google.maps.LatLng(coor.lat, coor.lng);
     var fireScore = 0;
@@ -110,8 +121,44 @@ function getFireScore(index, processFunc) {
             fireScore++;
         }
     }
+    fireScore *= 5;
     processFunc(fireScore, index, 'fireScore');
     return fireScore;
+}
+
+function getSchoolSafetyScore(index, radiusMiles, processFunc) {
+    /*
+    Criteria                           Weight
+    # of major crimes / avg            5
+    # of violent crimes / avg          5
+    # of property crimes / avg         3
+    */
+
+    // Calculate score for schools in neighborhoods, then average for neighborhood
+    var radius = radiusMiles * 1609.34; // meters
+    var coor = nycNeighborhoodData[index].coordinate;
+    var _nCord = new google.maps.LatLng(coor.lat, coor.lng);
+    var safetyScore = 0;
+    var numSchools = 0;
+
+    //drawCircle(radius, _nCord);
+
+    for(var i = 0; i < schoolMarkers.length; i++) {
+        var _sCord = schoolMarkers[i].position;
+        var major, violent, property, schoolScore;
+        dist = google.maps.geometry.spherical.computeDistanceBetween(_nCord, _sCord);
+        if(dist <= radius) {
+            numSchools++;
+            major = schoolData[i].major_n;
+            violent = schoolData[i].vio_n;
+            property = schoolData[i].prop_n;
+            schoolScore = (major * 1) + (violent * 1) + (property * 1);
+            safetyScore += schoolScore;
+        }
+    }
+    //safetyScore = safetyScore / numSchools;
+    processFunc(safetyScore, index, 'safetyScore');
+    return safetyScore;
 }
 
 function stopLoader() {

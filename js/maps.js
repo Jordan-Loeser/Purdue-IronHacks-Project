@@ -2,172 +2,13 @@
 var nyuStern = {lat: 40.7291, lng: -73.9965};
 var neighborhoodMarkers = [];
 var schoolMarkers = [];
+var schoolData = [];
 var fireStationMarkers = [];
 var nycNeighborhoodData = [];
 var failedNeighborhoodCodes = [];
 var map;
 
-var nightStyle = [
-    {
-        "featureType": "all",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#0d14a3"
-            }
-        ]
-    },
-    {
-        "featureType": "all",
-        "elementType": "labels.text.fill",
-        "stylers": [
-            {
-                "gamma": 0.01
-            },
-            {
-                "lightness": "-26"
-            },
-            {
-                "color": "#ffffff"
-            }
-        ]
-    },
-    {
-        "featureType": "all",
-        "elementType": "labels.text.stroke",
-        "stylers": [
-            {
-                "saturation": -31
-            },
-            {
-                "lightness": -33
-            },
-            {
-                "weight": 2
-            },
-            {
-                "gamma": 0.8
-            },
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "all",
-        "elementType": "labels.icon",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative",
-        "elementType": "labels.text.fill",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative",
-        "elementType": "labels.text.stroke",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "lightness": 30
-            },
-            {
-                "saturation": 30
-            },
-            {
-                "color": "#0e1bae"
-            }
-        ]
-    },
-    {
-        "featureType": "poi",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "saturation": 20
-            }
-        ]
-    },
-    {
-        "featureType": "poi.park",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "lightness": 20
-            },
-            {
-                "saturation": -20
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "lightness": 10
-            },
-            {
-                "saturation": -30
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "saturation": 25
-            },
-            {
-                "lightness": 25
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "labels.text.fill",
-        "stylers": [
-            {
-                "color": "#4ebfdc"
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "labels.text.stroke",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "all",
-        "stylers": [
-            {
-                "lightness": -20
-            }
-        ]
-    }
-];
+var nightStyle = [{"featureType":"all","elementType":"geometry","stylers":[{"color":"#0d14a3"}]},{"featureType":"all","elementType":"labels.text.fill","stylers":[{"gamma":0.01},{"lightness":"-26"},{"color":"#ffffff"}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"saturation":-31},{"lightness":-33},{"weight":2},{"gamma":0.8},{"visibility":"off"}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"administrative","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"lightness":30},{"saturation":30},{"color":"#0e1bae"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"saturation":20}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"lightness":20},{"saturation":-20}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":10},{"saturation":-30}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"saturation":25},{"lightness":25}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#4ebfdc"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"lightness":-20}]}];
 
 /* Google Maps Functions */
 function initMap() {
@@ -240,23 +81,27 @@ function initMap() {
         success : function(schools) {
             for(var s = 0; s < schools.length; s++) {
                 var school = schools[s];
-                var slat = parseFloat(school.latitude);
-                var slng = parseFloat(school.longitude);
-                var schoolMarker = new google.maps.Marker({
-                    position: {lat: slat, lng: slng},
-                    title: school.locationname,
-                    icon: {
-                      path: google.maps.SymbolPath.CIRCLE,
-                      scale: 3,
-                      fillOpacity: 0.7,
-                      fillColor: '#DAA520',
-                      strokeWeight: 0
-                    },
-                    map: map
-                });
-                schoolMarkers.push(schoolMarker);
+                if(school.avgofmajor_n != "#N/A") {
+                    var slat = parseFloat(school.latitude);
+                    var slng = parseFloat(school.longitude);
+                    var schoolMarker = new google.maps.Marker({
+                        position: {lat: slat, lng: slng},
+                        title: school.locationname,
+                        icon: {
+                          path: google.maps.SymbolPath.CIRCLE,
+                          scale: 3,
+                          fillOpacity: 0.7,
+                          fillColor: '#DAA520',
+                          strokeWeight: 0
+                        },
+                        map: map
+                    });
+                    schoolMarkers.push(schoolMarker);
+                    schoolData.push(school);
+                }
             }
             console.log('School Markers', schoolMarkers);
+            console.log('School Data', schoolData);
         },
         error : function(result) {
             console.log("School Safety Data could not be Loaded.");
@@ -296,8 +141,20 @@ function initMap() {
 
 }
 
+function navigateOnMap(coor){
+	map.setZoom(14);
+    var _cCord = new google.maps.LatLng(coor.lat, coor.lng);
+    drawCircle(1.5 * 1609.34, _cCord);
+	map.setCenter(_cCord);
+	//$(curmk).trigger("click");
+	return;
+}
+
 var circle;
 function drawCircle(radius, center) {
+    if(circle != null) {
+        circle.setMap(null);
+    }
     circle = new google.maps.Circle({
         center:center,
         radius: radius,

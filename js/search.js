@@ -5,6 +5,18 @@ $(window).on("load", function(){
     const e = React.createElement;
 
     class Neighborhood extends React.Component {
+
+        constructor(props) {
+          super(props);
+          // This binding is necessary to make `this` work in the callback
+          this.handleClick = this.handleClick.bind(this);
+        }
+
+        handleClick() {
+            //alert(JSON.stringify(this.props.neighborhood.coordinate));
+            navigateOnMap(this.props.neighborhood.coordinate);
+        }
+
         render() {
             const hood = this.props.neighborhood;
             const name = hood.area[0]
@@ -19,11 +31,18 @@ $(window).on("load", function(){
             } else {
                 safety = e('p', null, `Safety: No Score Available`);
             }
-            return e('div', {className: 'o-neighborhood-listing'},
+
+            return e('div', { className: 'o-neighborhood-listing', onClick: this.handleClick },
                 e('h4', null, `Hood: ${name}`),
                 price,
                 safety
             );
+            /*
+            return e('div', {className: 'o-neighborhood-listing', onClick: {this.handleClick}},
+                e('h4', null, `Hood: ${name}`),
+                price,
+                safety
+            );*/
         }
     }
 

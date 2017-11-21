@@ -6,7 +6,7 @@ function getNeighborhoodData() {
         var lastUpdated = new Date(localStorage.getItem("lastUpdated"));
         var localData = JSON.parse(localStorage.getItem("localNeighboroodData"));
         // See if Data Has been Stored Previously & If it is over a month old
-        if (0){//(localStorage.getItem("lastUpdated") != null && lastUpdated.getMonth() >= currentDate.getMonth()) {
+        if (localStorage.getItem("lastUpdated") != null && lastUpdated.getMonth() >= currentDate.getMonth()) {
             console.log("Data was last updated on " + localStorage.getItem("lastUpdated") + ". Not updating Data.");
             nycNeighborhoodData = localData;
             console.log('Stored Data:', nycNeighborhoodData);
@@ -33,7 +33,8 @@ function download_and_store_neighborhood_data() {
             // Update Price Data
             for(var k in nycNeighborhoodData) {
                code = nycNeighborhoodData[k].code.toString();
-               //getRecentNeighborhoodPriceData(code, k, addToNeighborhoodData); // Add price data to master data
+               //getNeighborhoodLocation(nycNeighborhoodData[k].area[0], k, addToNeighborhoodData);
+               getRecentNeighborhoodPriceData(code, k, addToNeighborhoodData); // Add price data to master data
                calculateSafety(k, 1, addToNeighborhoodData);
             }
 
@@ -63,6 +64,8 @@ function getNeighborhoodLocation(neighborhood, index, processFunc) {
         marker = neighborhoodMarkers[i];
         if (marker.title.toLowerCase() === name) {
             processFunc(marker.getPosition().toJSON(), index, "coordinate");
+            var dist = google.maps.geometry.spherical.computeDistanceBetween(nyuMarker.getPosition(), marker.getPosition());
+            processFunc(dist, index, "distance");
             return;
         }
     }

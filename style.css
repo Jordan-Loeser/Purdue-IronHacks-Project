@@ -161,6 +161,7 @@ h3 {
   bottom: 50px;
   z-index: 500; }
 .c-logo {
+  display: none;
   color: #1effbc;
   padding: 30px;
   position: fixed;

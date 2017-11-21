@@ -1,11 +1,13 @@
 //***** MANAGES MAP *****//
 var nyuStern = {lat: 40.7291, lng: -73.9965};
+var nyuMarker;
 var neighborhoodMarkers = [];
 var schoolMarkers = [];
 var schoolData = [];
 var fireStationMarkers = [];
 var nycNeighborhoodData = [];
 var failedNeighborhoodCodes = [];
+var filterCircle;
 var map;
 
 var nightStyle = [{"featureType":"all","elementType":"geometry","stylers":[{"color":"#0d14a3"}]},{"featureType":"all","elementType":"labels.text.fill","stylers":[{"gamma":0.01},{"lightness":"-26"},{"color":"#ffffff"}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"saturation":-31},{"lightness":-33},{"weight":2},{"gamma":0.8},{"visibility":"off"}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"administrative","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"lightness":30},{"saturation":30},{"color":"#0e1bae"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"saturation":20}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"lightness":20},{"saturation":-20}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":10},{"saturation":-30}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"saturation":25},{"lightness":25}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#4ebfdc"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"lightness":-20}]}];
@@ -30,7 +32,7 @@ function initMap() {
         styles: nightStyle,
     });
 
-    var nyuMarker = new google.maps.Marker({
+    nyuMarker = new google.maps.Marker({
           position: nyuStern,
           title: 'NYU Stern School of Business',
           animation: google.maps.Animation.DROP,
@@ -40,6 +42,15 @@ function initMap() {
             strokeColor: '#1effbc'
           },
           map: map
+    });
+
+    filterCircle = new google.maps.Circle({
+        center: nyuMarker.getPosition(),
+        radius: 0,
+        fillOpacity: 0.15,
+        fillColor: "#1effbc",
+        strokeColor: "#1effbc",
+        map: map
     });
 
     //drawCircle(40233.6, nyuMarker.getPosition() );

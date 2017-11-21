@@ -8,6 +8,12 @@ $(window).on("load", function(){
 
         constructor(props) {
           super(props);
+          this.state = {
+              name: this.props.neighborhood.area[0],
+              price: this.props.neighborhood.price[0][1],
+              safety: this.props.neighborhood.safetyScore,
+              distance: Math.round((this.props.neighborhood.distance / 1609.34) * 10 ) / 10
+          };
           // This binding is necessary to make `this` work in the callback
           this.handleClick = this.handleClick.bind(this);
         }
@@ -18,31 +24,38 @@ $(window).on("load", function(){
         }
 
         render() {
-            const hood = this.props.neighborhood;
-            const name = hood.area[0]
             var price = null;
             var safety = null;
+            var distance = null;
             //console.log(hood);
-            if(hood.price) {
-                price = e('p', null, `$${hood.price[0][1]}`);
+            if(this.state.price) {
+                price = e('p', null, `$${this.state.price}`);
             }
-            if(hood.safetyScore) {
-                safety = e('p', null, `Safety Score: ${hood.safetyScore}`);
-            } else {
+            else {
+                price = e('p', null, `Price: No Price Available`);
+            }
+
+            if(this.state.safety) {
+                safety = e('p', null, `Safety Score: ${this.state.safety}`);
+            }
+            else {
                 safety = e('p', null, `Safety: No Score Available`);
             }
 
+            if(this.state.distance) {
+                distance = e('p', null, `Distance: ${this.state.distance} mi`);
+            }
+            else {
+                distance = e('p', null, `Distance: No Distance Available`);
+            }
+
             return e('div', { className: 'o-neighborhood-listing', onClick: this.handleClick },
-                e('h4', null, `Hood: ${name}`),
+                e('h4', null, `Hood: ${this.state.name}`),
                 price,
-                safety
+                safety,
+                distance
             );
-            /*
-            return e('div', {className: 'o-neighborhood-listing', onClick: {this.handleClick}},
-                e('h4', null, `Hood: ${name}`),
-                price,
-                safety
-            );*/
+
         }
     }
 
@@ -51,48 +64,82 @@ $(window).on("load", function(){
         const rows = [];
 
         this.props.neighborhoods.forEach((hood) => {
-            rows.push(
-                e(Neighborhood, {neighborhood: hood}, null)
-            );
+            if( (hood.distance / 1609.340) <= this.props.distance) {
+                rows.push(
+                    e(Neighborhood, {neighborhood: hood}, null)
+                );
+            }
         });
 
         //console.log(rows);
-
+        rows.unshift(e('div', {className: 'result-count'}, `Matches: ${rows.length}`));
         return (rows);
       }
     }
 
-    ReactDOM.render(
-      e(NeighborhoodList, {neighborhoods: nycNeighborhoodData}, null),
-      document.getElementById('c-search-results')
-    );
-
-    class NameForm extends React.Component {
+    class FilterForm extends React.Component {
         constructor(props) {
             super(props);
-            this.state = {value: ''};
-
-            this.handleChange = this.handleChange.bind(this);
-            this.handleSubmit = this.handleSubmit.bind(this);
+            this.state = {
+                distance: '1',
+                sortingType: 'sortByPrice',
+                filteredResults: nycNeighborhoodData
+            };
+            this.handleInputChange = this.handleInputChange.bind(this);
+            this.handleButtonClick = this.handleButtonClick.bind(this);
         }
 
-        handleChange(event) {
-            this.setState({value: event.target.value});
+        handleInputChange(event) {
+            const target = event.target;e
+            const value = target.value;
+            const name = target.name;
+
+            if(name == 'distance') {
+                filterCircle.setRadius(value * 1609.34);
+                map.fitBounds(filterCircle.getBounds());
+            }
+
+            this.setState({
+              [name]: value
+            });
         }
 
-        handleSubmit(event) {
-            alert('A name was submitted: ' + this.state.value);
-            event.preventDefault();
+        handleButtonClick(e) {
+            e.preventDefault();
+            if(this.state.sortingType == 'sortByPrice') {
+                this.setState({
+                  ['sortingType']: 'sortBySafety'
+                });
+            }
+            else {
+                this.setState({
+                  ['sortingType']: 'sortByPrice'
+                });
+            }
         }
 
         render() {
             return e('form', {onSubmit: this.handleSubmit},
                 e('label', null,
-                    e('input', {type: 'text', value: this.state.value, onChange: this.handleChange})
+                    e('input', {type: 'range', min: 1, max: 100, name: 'distance', value: this.state.distance, onChange: this.handleInputChange}),
+                    e('span', null, this.state.distance),
+                    e('input', {type: 'radio', name: 'sortingType', value: 'sortByPrice', onChange: this.handleInputChange, checked: this.state.sortingType === 'sortByPrice'}, null),
+                    e('input', {type: 'radio', name: 'sortingType', value: 'sortBySafety', onChange: this.handleInputChange, checked: this.state.sortingType === 'sortBySafety'}, null),
+                    e('div', {className: this.state.sortingType},
+                        e('div', {classname: 'priceSort', name: 'sortingType', value: 'sortByPrice', onClick: this.handleButtonClick}, 'Price'),
+                        e('div', {classname: 'safetySort', name: 'sortingType', value: 'sortBySafety', onClick: this.handleButtonClick}, 'Safety')
+                    )
                 ),
-                e('input', {type: 'submit', value: 'Submit'})
+                e('div', {className: 'c-search-results'},
+                    e(NeighborhoodList, {neighborhoods: this.state.filteredResults, distance: this.state.distance}, null)
+                )
             );
         }
     }
+
+    ReactDOM.render(
+      e(FilterForm, null, null),
+      document.getElementById('c-search-filters')
+    );
 
 });

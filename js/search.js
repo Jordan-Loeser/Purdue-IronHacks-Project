@@ -60,21 +60,50 @@ $(window).on("load", function(){
     }
 
     class NeighborhoodList extends React.Component {
-      render() {
-        const rows = [];
 
-        this.props.neighborhoods.forEach((hood) => {
-            if( (hood.distance / 1609.340) <= this.props.distance) {
-                rows.push(
-                    e(Neighborhood, {neighborhood: hood}, null)
-                );
+        constructor(props) {
+            super(props);
+            this.state = {
+                currentResults: []
+            };
+        }
+
+        render() {
+            const rows = [];
+            const sorted = this.props.neighborhoods;
+
+            // Sort the Results
+            if(this.props.sortBy == 'sortByPrice') {
+                console.log('sorting', "by price");
+                sorted.sort(function(a, b) {
+                    return parseFloat(a.price[0][1]) - parseFloat(b.price[0][1]);
+                });
             }
-        });
+            if(this.props.sortBy == 'sortBySafety') {
+                console.log('sorting', "by safety");
+                sorted.sort(function(a, b) {
+                    if(a.safetyScore == b.safetyScore) {
+                        return parseFloat(a.price[0][1]) - parseFloat(b.price[0][1]);
+                    }
+                    return parseFloat(b.safetyScore) - parseFloat(a.safetyScore);
+                });
+            }
+            console.log('sorted', sorted);
 
-        //console.log(rows);
-        rows.unshift(e('div', {className: 'result-count'}, `Matches: ${rows.length}`));
-        return (rows);
-      }
+            sorted.forEach((hood) => {
+                if( (hood.distance / 1609.340) <= this.props.distance) {
+                    rows.push(
+                        e(Neighborhood, {neighborhood: hood, key: Math.random()}, null)
+                    );
+                }
+            });
+
+            //console.log(rows);
+            rows.unshift(e('div', {className: 'result-count'}, `Sorting: ${this.props.sortBy}`));
+            rows.unshift(e('div', {className: 'result-count'}, `Matches: ${rows.length}`));
+
+            return (rows);
+        }
     }
 
     class FilterForm extends React.Component {
@@ -131,7 +160,7 @@ $(window).on("load", function(){
                     )
                 ),
                 e('div', {className: 'c-search-results'},
-                    e(NeighborhoodList, {neighborhoods: this.state.filteredResults, distance: this.state.distance}, null)
+                    e(NeighborhoodList, {neighborhoods: this.state.filteredResults, distance: this.state.distance, sortBy: this.state.sortingType}, null)
                 )
             );
         }

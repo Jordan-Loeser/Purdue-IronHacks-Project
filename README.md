@@ -9,9 +9,6 @@
 * :white_check_mark: Added Marker Visibility Toggling
 * :white_check_mark: Added Result Sorting (Distance, Safety, and Price)
 * :white_check_mark: Calculated Safety Score using Fire & School Data (See Help Window in App)
-    * Fire Score = (num Fire Stations w/in 10 mile radius) / (avg. num Fire Stations w/in 10 mile radius)
-    * School Score = TBD
-    * Total Score = Fire Score + School Score
 * :white_check_mark: Added Temperature Reading
 * :white_check_mark: Cleaned up Visualizations
 

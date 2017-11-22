@@ -251,6 +251,36 @@ h3 {
     padding: 0px 30px;
     margin: 0px 10px 10px;
     border: 1px solid #101fc6; }
+.c-marker-filters {
+  position: fixed;
+  right: 50px;
+  z-index: 500;
+  top: 350px;
+  width: 300px; }
+  .c-marker-filters .toggle-buttons div {
+    display: inline-block;
+    padding: 7px 10px;
+    width: 20px;
+    text-align: center;
+    border: 0.5px solid #0e1bae;
+    border: 1px solid #f2f2f2;
+    background: #FFF;
+    color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none; }
+    .c-marker-filters .toggle-buttons div.true {
+      background: #FFF;
+      color: #0d19a3; }
 .c-data-container .bar {
   fill: steelblue; }
 .c-data-container .bar:hover {

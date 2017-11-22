@@ -148,7 +148,7 @@ $(window).on("load", function(){
 
         render() {
             return e('div', null,
-                e('form', {onSubmit: this.handleSubmit},
+                e('form', null,
                     e('div', null,
                         e('div', {className: 'hidden'},
                             e('input', {type: 'radio', name: 'sortingType', value: 'sortByPrice', onChange: this.handleInputChange, checked: this.state.sortingType === 'sortByPrice'}, null),
@@ -175,5 +175,89 @@ $(window).on("load", function(){
       e(FilterForm, null, null),
       document.getElementById('c-search-filters')
     );
+
+    class MarkerFilters extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                showFireStations: false,
+                showSchools: false,
+            };
+            this.handleInputChange = this.handleInputChange.bind(this);
+            this.handleFireButtonClick = this.handleFireButtonClick.bind(this);
+            this.handleSchoolButtonClick = this.handleSchoolButtonClick.bind(this);
+        }
+
+        updateMarkers(name) {
+            if(name == 'showFireStations') {
+                if(!this.state.showFireStations) {
+                    setMapOnAll(map, fireStationMarkers);
+                }
+                else {
+                    setMapOnAll(null, fireStationMarkers);
+                }
+            }
+            else {
+                if(!this.state.showSchools) {
+                    setMapOnAll(map, schoolMarkers);
+                }
+                else {
+                    setMapOnAll(null, schoolMarkers);
+                }
+            }
+        }
+
+        handleInputChange(event) {
+            const target = event.target;
+            const value = target.checked;
+            const name = target.name;
+
+            this.setState({
+              [name]: value
+            });
+
+            this.updateMarkers(name);
+        }
+
+        handleFireButtonClick(event) {
+            event.preventDefault();
+            this.setState({
+              ['showFireStations']: !this.state.showFireStations
+            });
+            this.updateMarkers('showFireStations');
+        }
+
+        handleSchoolButtonClick(event) {
+            event.preventDefault();
+            this.setState({
+              ['showSchools']: !this.state.showSchools
+            });
+            this.updateMarkers('showSchools');
+        }
+
+        render() {
+            return e('div', {className: 'marker-filter-buttons'},
+                e('div', {className: 'hidden'},
+                    e('input', {type: 'checkbox', checked: this.state.showFireStations, name: 'showFireStations', value: 'showFireStations', onChange: this.handleInputChange}, null),
+                    e('input', {type: 'checkbox', checked: this.state.showSchools, name: 'showSchools', value: 'showSchools', onChange: this.handleInputChange}, null),
+                ),
+                e('div', {className: 'toggle-buttons'},
+                    e('div', {className: 'showFireStations ' + `${this.state.showFireStations}`, name: 'showFireStations', value: 'showFireStations', onClick: this.handleFireButtonClick},
+                        e('i', {className: 'fa fa-fire-extinguisher', ariaHidden: 'true'}, null)
+                    ),
+                    e('div', {className: 'showSchools ' + `${this.state.showSchools}`, name: 'showSchools', value: 'showSchools', onClick: this.handleSchoolButtonClick},
+                        e('i', {className: 'fa fa-graduation-cap', ariaHidden: 'true'}, null)
+                    ),
+                )
+            );
+        }
+
+    }
+
+    ReactDOM.render(
+      e(MarkerFilters, null, null),
+      document.getElementById('c-marker-filters')
+    );
+
 
 });

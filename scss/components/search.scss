@@ -123,3 +123,34 @@
         }
     }
 }
+
+&marker-filters {
+    position: fixed;
+    right: 50px;
+    z-index: 500;
+    top: 350px;
+    width: 300px;
+    .toggle-buttons {
+        div {
+            display: inline-block;
+            padding: 7px 10px;
+            width: 20px;
+            text-align: center;
+            border: 0.5px solid $dark;
+            border: 1px solid darken($light, 5%);
+            background: $light;//darken($blue, 5%);
+            color: rgba(0,0,0,0.2);
+            cursor: pointer;
+            -webkit-touch-callout: none; /* iOS Safari */
+              -webkit-user-select: none; /* Safari */
+               -khtml-user-select: none; /* Konqueror HTML */
+                 -moz-user-select: none; /* Firefox */
+                  -ms-user-select: none; /* Internet Explorer/Edge */
+                      user-select: none;
+            &.true {
+                background: $light;
+                color: $blue;
+            }
+        }
+    }
+}

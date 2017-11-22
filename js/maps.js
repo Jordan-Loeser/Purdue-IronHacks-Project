@@ -107,7 +107,7 @@ function initMap() {
                           fillColor: '#DAA520',
                           strokeWeight: 0
                         },
-                        map: map
+                        map: null
                     });
                     schoolMarkers.push(schoolMarker);
                     schoolData.push(school);
@@ -140,7 +140,7 @@ function initMap() {
                       fillColor: 'red',
                       strokeWeight: 0
                     },
-                    map: map
+                    map: null
                 });
                 fireStationMarkers.push(stationMarker);
             }
@@ -176,4 +176,10 @@ function drawCircle(radius, center) {
         strokeColor: "#1effbc",
         map: map
     });
+}
+
+function setMapOnAll(mapGoal, markerSet) {
+    for (var i = 0; i < markerSet.length; i++) {
+        markerSet[i].setMap(mapGoal);
+    }
 }

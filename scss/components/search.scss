@@ -176,3 +176,17 @@
         }
     }
 }
+
+&weather {
+    position: fixed;
+    top: 66px;
+    left: 300px;
+    z-index: 1000;
+    .temp {
+        margin: 0;
+        font-size: 1.2em;
+        font-weight: bold;
+        opacity: 0.75;
+        text-align: right;
+    }
+}

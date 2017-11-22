@@ -298,6 +298,17 @@ h3 {
     .c-marker-filters .toggle-buttons div.helpButton {
       float: right;
       color: #0d19a3; }
+.c-weather {
+  position: fixed;
+  top: 66px;
+  left: 300px;
+  z-index: 1000; }
+  .c-weather .temp {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    opacity: 0.75;
+    text-align: right; }
 .c-data-container .bar {
   fill: steelblue; }
 .c-data-container .bar:hover {

@@ -86,13 +86,13 @@ $(window).on("load", function(){
 
             // Sort the Results
             if(this.props.sortBy == 'sortByPrice') {
-                console.log('sorting', "by price");
+                //console.log('sorting', "by price");
                 sorted.sort(function(a, b) {
                     return parseFloat(a.price[0][1]) - parseFloat(b.price[0][1]);
                 });
             }
             if(this.props.sortBy == 'sortBySafety') {
-                console.log('sorting', "by safety");
+                //console.log('sorting', "by safety");
                 sorted.sort(function(a, b) {
                     if(a.safetyScore == b.safetyScore) {
                         return parseFloat(a.price[0][1]) - parseFloat(b.price[0][1]);
@@ -100,7 +100,7 @@ $(window).on("load", function(){
                     return parseFloat(b.safetyScore) - parseFloat(a.safetyScore);
                 });
             }
-            console.log('sorted', sorted);
+            //console.log('sorted', sorted);
 
             sorted.forEach((hood) => {
                 if( (hood.distance / 1609.340) <= this.props.distance) {

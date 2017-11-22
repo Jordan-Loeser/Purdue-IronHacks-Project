@@ -7,6 +7,7 @@ var schoolData = [];
 var fireStationMarkers = [];
 var nycNeighborhoodData = [];
 var failedNeighborhoodCodes = [];
+var climateData;
 var filterCircle;
 var map;
 
@@ -85,6 +86,26 @@ function initMap() {
         });
 
         map.data.setMap(null); // Hide Clustered Markers
+    });
+
+    // Load Weather
+    $.ajax({
+        type : "GET",
+        url : 'https://api.weather.gov/points/40.7291,-73.9965/forecast',
+        success : function(result) {
+            climateData = result;
+            //console.log('climate data', climateData)
+            var temperature;
+            var units;
+            for(var i = 0; i < 1; i++) {
+                temperature = climateData.properties.periods[i].temperature;
+                units = climateData.properties.periods[i].temperatureUnit;
+                $('.c-weather').append('<p class="temp">' + temperature + '&#176; ' + units + '</p>');
+            }
+        },
+        error : function(result) {
+            console.log("Climate data could not be loaded.");
+        }
     });
 
     // Load School Markers (and Safety)

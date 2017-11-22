@@ -119,7 +119,7 @@
             background: $light;
             color: $blue;
             h4 {
-                color: $accent;
+                color: darken($accent, 10%);
                 font-size: 1.3em;
                 margin-bottom: 0.5em;
             }
@@ -131,7 +131,7 @@
                 display: inline-block;
                 margin-top: 0;
                 i {
-                    color: $accent;
+                    color: darken($accent, 14%);
                     margin-right: 5px;
                 }
             }

@@ -4,6 +4,9 @@ body {
   font-family: sans-serif;
   box-sizing: border-box; }
 
+.hidden {
+  display: none; }
+
 body {
   font-family: 'Source Sans Pro', sans-serif;
   color: #FFF; }
@@ -188,14 +191,62 @@ h3 {
     .c-welcome-message h2 .num-rooms {
       font-style: italic;
       color: #1effbc; }
-.c-search-results {
+.c-search-filters form {
+  padding: 20px; }
+  .c-search-filters form input[type='range'] {
+    margin-top: 15px;
+    width: 100%; }
+.c-search-filters .priceSort, .c-search-filters .safetySort {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid #0b158b;
+  background: #0b158b;
+  font-size: 0.85em;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none; }
+.c-search-filters .sortByPrice, .c-search-filters .sortBySafety {
+  text-transform: uppercase;
+  font-size: 0.85em; }
+.c-search-filters .sortByPrice .priceSort {
+  background: #FFF;
+  color: #0d19a3; }
+.c-search-filters .sortByPrice .safetySort {
+  color: #5764f2; }
+.c-search-filters .sortBySafety .safetySort {
+  background: #FFF;
+  color: #0d19a3; }
+.c-search-filters .sortBySafety .priceSort {
+  color: #5764f2; }
+.c-search-filters .distance-input {
+  opacity: 0.8;
+  text-align: right;
+  text-transform: uppercase;
+  font-size: 0.85em; }
+.c-search-filters .result-count {
+  padding: 0px 20px 15px;
+  text-transform: uppercase;
+  font-size: 0.85em;
+  opacity: 0.8;
+  position: absolute;
+  top: 92px; }
+.c-search-results .result-listings {
   overflow: scroll;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  top: 88px; }
-  .c-search-results .o-neighborhood-listing {
+  top: 120px; }
+  .c-search-results .result-listings .o-neighborhood-listing {
     cursor: pointer;
     padding: 0px 30px;
     margin: 0px 10px 10px;

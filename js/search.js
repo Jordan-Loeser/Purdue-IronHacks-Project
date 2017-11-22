@@ -98,11 +98,10 @@ $(window).on("load", function(){
                 }
             });
 
-            //console.log(rows);
-            rows.unshift(e('div', {className: 'result-count'}, `Sorting: ${this.props.sortBy}`));
-            rows.unshift(e('div', {className: 'result-count'}, `Matches: ${rows.length}`));
-
-            return (rows);
+            return e('div', null,
+                e('div', {className: 'result-count'}, `Matches: ${rows.length}`),
+                e('div', {className: 'result-listings'}, rows)
+            );
         }
     }
 
@@ -148,15 +147,21 @@ $(window).on("load", function(){
         }
 
         render() {
-            return e('form', {onSubmit: this.handleSubmit},
-                e('label', null,
-                    e('input', {type: 'range', min: 1, max: 100, name: 'distance', value: this.state.distance, onChange: this.handleInputChange}),
-                    e('span', null, this.state.distance),
-                    e('input', {type: 'radio', name: 'sortingType', value: 'sortByPrice', onChange: this.handleInputChange, checked: this.state.sortingType === 'sortByPrice'}, null),
-                    e('input', {type: 'radio', name: 'sortingType', value: 'sortBySafety', onChange: this.handleInputChange, checked: this.state.sortingType === 'sortBySafety'}, null),
-                    e('div', {className: this.state.sortingType},
-                        e('div', {classname: 'priceSort', name: 'sortingType', value: 'sortByPrice', onClick: this.handleButtonClick}, 'Price'),
-                        e('div', {classname: 'safetySort', name: 'sortingType', value: 'sortBySafety', onClick: this.handleButtonClick}, 'Safety')
+            return e('div', null,
+                e('form', {onSubmit: this.handleSubmit},
+                    e('div', null,
+                        e('div', {className: 'hidden'},
+                            e('input', {type: 'radio', name: 'sortingType', value: 'sortByPrice', onChange: this.handleInputChange, checked: this.state.sortingType === 'sortByPrice'}, null),
+                            e('input', {type: 'radio', name: 'sortingType', value: 'sortBySafety', onChange: this.handleInputChange, checked: this.state.sortingType === 'sortBySafety'}, null)
+                        ),
+                        e('div', {className: this.state.sortingType},
+                            e('div', {className: 'priceSort', name: 'sortingType', value: 'sortByPrice', onClick: this.handleButtonClick}, 'Price'),
+                            e('div', {className: 'safetySort', name: 'sortingType', value: 'sortBySafety', onClick: this.handleButtonClick}, 'Safety')
+                        )
+                    ),
+                    e('div', null,
+                        e('input', {type: 'range', min: 1, max: 50, name: 'distance', value: this.state.distance, onChange: this.handleInputChange}),
+                        e('div', {className: 'distance-input'}, `Distance: ${this.state.distance} mi`)
                     )
                 ),
                 e('div', {className: 'c-search-results'},

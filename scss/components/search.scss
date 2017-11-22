@@ -47,22 +47,79 @@
     }
 }
 
-&data-container {
-    //height: 100px;
-    //padding: 0px 20px;
+&search-filters {
+    form {
+        padding: 20px;
+        input[type='range'] {
+            margin-top: 15px;
+            width: 100%;
+        }
+    }
+    .priceSort, .safetySort {
+        display: inline-block;
+        padding: 10px 20px;
+        border: 1px solid darken($blue, 5%);
+        background: darken($blue, 5%);
+        font-size: 0.85em;
+        cursor: pointer;
+        -webkit-touch-callout: none; /* iOS Safari */
+          -webkit-user-select: none; /* Safari */
+           -khtml-user-select: none; /* Konqueror HTML */
+             -moz-user-select: none; /* Firefox */
+              -ms-user-select: none; /* Internet Explorer/Edge */
+                  user-select: none;
+    }
+    .sortByPrice, .sortBySafety {
+        text-transform: uppercase;
+        font-size: 0.85em;
+    }
+    .sortByPrice {
+        .priceSort {
+            background: $light;
+            color: $blue;
+        }
+        .safetySort {
+            color: lighten($blue, 30%);
+        }
+    }
+    .sortBySafety {
+        .safetySort {
+            background: $light;
+            color: $blue;
+        }
+        .priceSort {
+            color: lighten($blue, 30%);
+        }
+    }
+    .distance-input {
+        opacity: 0.8;
+        text-align: right;
+        text-transform: uppercase;
+        font-size: 0.85em;
+    }
+    .result-count {
+        padding: 0px 20px 15px;
+        text-transform: uppercase;
+        font-size: 0.85em;
+        opacity: 0.8;
+        position: absolute;
+        top: 92px;
+    }
 }
 
 &search-results {
-    overflow: scroll;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 88px;
-    .o-neighborhood-listing {
-        cursor: pointer;
-        padding: 0px 30px;
-        margin: 0px 10px 10px;
-        border: 1px solid lighten($dark, 5%);
+    .result-listings {
+        overflow: scroll;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 120px;
+        .o-neighborhood-listing {
+            cursor: pointer;
+            padding: 0px 30px;
+            margin: 0px 10px 10px;
+            border: 1px solid lighten($dark, 5%);
+        }
     }
 }

@@ -9,6 +9,9 @@
 * :white_check_mark: Added Marker Visibility Toggling
 * :white_check_mark: Added Result Sorting (Distance, Safety, and Price)
 * :white_check_mark: Calculated Safety Score using Fire & School Data (See Help Window in App)
+    * Fire Score = (num Fire Stations w/in 10 mile radius) / (avg. num Fire Stations w/in 10 mile radius)
+    * School Score = TBD
+    * Total Score = Fire Score + School Score
 * :white_check_mark: Added Temperature Reading
 * :white_check_mark: Cleaned up Visualizations
 
@@ -17,10 +20,7 @@
 * :white_check_mark: Added Local Data Storage for Pricing Data
 * :white_check_mark: Used GeoJSON to Map NYC Neighborhoods
 * :white_check_mark: Added Loading Animation
-* :white_check_mark: Created Safety Algorithm
-    * Fire Score = (num Fire Stations w/in 10 mile radius) / (avg. num Fire Stations w/in 10 mile radius)
-    * School Score = TBD
-    * Total Score = Fire Score + School Score
+
 
 ## Developer Experience
 * This project uses [BEMIT naming conventions](https://csswizardry.com/2015/08/bemit-taking-the-bem-naming-convention-a-step-further/) which help organize the code into a readable and modular structure.

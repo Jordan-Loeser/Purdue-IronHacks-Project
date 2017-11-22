@@ -116,10 +116,28 @@
         right: 0;
         top: 120px;
         .o-neighborhood-listing {
+            background: $light;
+            color: $blue;
+            h4 {
+                color: $accent;
+                font-size: 1.3em;
+                margin-bottom: 0.5em;
+            }
             cursor: pointer;
             padding: 0px 30px;
             margin: 0px 10px 10px;
             border: 1px solid lighten($dark, 5%);
+            .distance-score, .safety-score {
+                display: inline-block;
+                margin-top: 0;
+                i {
+                    color: $accent;
+                    margin-right: 5px;
+                }
+            }
+            .distance-score {
+                float: right;
+            }
         }
     }
 }
@@ -149,6 +167,10 @@
                       user-select: none;
             &.true {
                 background: $light;
+                color: $blue;
+            }
+            &.helpButton {
+                float: right;
                 color: $blue;
             }
         }

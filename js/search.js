@@ -36,21 +36,33 @@ $(window).on("load", function(){
             }
 
             if(this.state.safety) {
-                safety = e('p', null, `Safety Score: ${this.state.safety}`);
+                safety = e('p', {className: 'safety-score'},
+                    e('i', {className: 'fa fa-lock', ariaHidden: 'true'}, null),
+                    `${this.state.safety} / 5`
+                );
             }
             else {
-                safety = e('p', null, `Safety: No Score Available`);
+                safety = e('p', {className: 'safety-score'},
+                    e('i', {className: 'fa fa-lock', ariaHidden: 'true'}, null),
+                    `No Data`
+                );
             }
 
             if(this.state.distance) {
-                distance = e('p', null, `Distance: ${this.state.distance} mi`);
+                distance = e('p', {className: 'distance-score'},
+                    e('i', {className: 'fa fa-location-arrow', ariaHidden: 'true'}, null),
+                    `${this.state.distance} mi`
+                );
             }
             else {
-                distance = e('p', null, `Distance: No Distance Available`);
+                distance = e('p', {className: 'distance-score'},
+                    e('i', {className: 'fa fa-location-arrow', ariaHidden: 'true'}, null),
+                    `No Data`
+                );
             }
 
             return e('div', { className: 'o-neighborhood-listing', onClick: this.handleClick },
-                e('h4', null, `Hood: ${this.state.name}`),
+                e('h4', null, `${this.state.name}`),
                 price,
                 safety,
                 distance
@@ -109,7 +121,7 @@ $(window).on("load", function(){
         constructor(props) {
             super(props);
             this.state = {
-                distance: '1',
+                distance: '25',
                 sortingType: 'sortByPrice',
                 filteredResults: nycNeighborhoodData
             };
@@ -247,6 +259,9 @@ $(window).on("load", function(){
                     ),
                     e('div', {className: 'showSchools ' + `${this.state.showSchools}`, name: 'showSchools', value: 'showSchools', onClick: this.handleSchoolButtonClick},
                         e('i', {className: 'fa fa-graduation-cap', ariaHidden: 'true'}, null)
+                    ),
+                    e('div', {className: 'helpButton', onClick: closeHelpModal},
+                        e('i', {className: 'fa fa-info', ariaHidden: 'true'}, null)
                     ),
                 )
             );

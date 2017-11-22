@@ -247,10 +247,24 @@ h3 {
   right: 0;
   top: 120px; }
   .c-search-results .result-listings .o-neighborhood-listing {
+    background: #FFF;
+    color: #0d19a3;
     cursor: pointer;
     padding: 0px 30px;
     margin: 0px 10px 10px;
     border: 1px solid #101fc6; }
+    .c-search-results .result-listings .o-neighborhood-listing h4 {
+      color: #1effbc;
+      font-size: 1.3em;
+      margin-bottom: 0.5em; }
+    .c-search-results .result-listings .o-neighborhood-listing .distance-score, .c-search-results .result-listings .o-neighborhood-listing .safety-score {
+      display: inline-block;
+      margin-top: 0; }
+      .c-search-results .result-listings .o-neighborhood-listing .distance-score i, .c-search-results .result-listings .o-neighborhood-listing .safety-score i {
+        color: #1effbc;
+        margin-right: 5px; }
+    .c-search-results .result-listings .o-neighborhood-listing .distance-score {
+      float: right; }
 .c-marker-filters {
   position: fixed;
   right: 50px;
@@ -281,6 +295,9 @@ h3 {
     .c-marker-filters .toggle-buttons div.true {
       background: #FFF;
       color: #0d19a3; }
+    .c-marker-filters .toggle-buttons div.helpButton {
+      float: right;
+      color: #0d19a3; }
 .c-data-container .bar {
   fill: steelblue; }
 .c-data-container .bar:hover {
@@ -292,6 +309,38 @@ h3 {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges; }
+.c-help-modal {
+  background: rgba(14, 27, 174, 0.75);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: block;
+  z-index: 100000; }
+  .c-help-modal .info {
+    box-sizing: border-box;
+    overflow: scroll;
+    padding: 30px;
+    position: absolute;
+    background: #FFF;
+    color: #0d19a3;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    max-width: 700px;
+    max-height: 90%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); }
+    .c-help-modal .info .close-modal {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      font-size: 1.5em;
+      cursor: pointer; }
+  .c-help-modal.closed {
+    display: none; }
 
 .o-container {
   background: #0e1bae;

@@ -17,7 +17,7 @@ function initMap() {
 
     map = new google.maps.Map(d3.select("#map").node(), {
         center: nyuStern,
-        zoom: 14,
+        zoom: 10,
         disableDefaultUI: true,
             zoomControl: true,
             mapTypeControl: true,
@@ -172,8 +172,8 @@ function drawCircle(radius, center) {
         center:center,
         radius: radius,
         fillOpacity: 0.15,
-        fillColor: "#1effbc",
-        strokeColor: "#1effbc",
+        fillColor: "orange",
+        strokeColor: "orange",
         map: map
     });
 }
@@ -182,4 +182,8 @@ function setMapOnAll(mapGoal, markerSet) {
     for (var i = 0; i < markerSet.length; i++) {
         markerSet[i].setMap(mapGoal);
     }
+}
+
+function closeHelpModal() {
+    $('.c-help-modal').toggleClass('closed');
 }

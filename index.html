@@ -31,6 +31,24 @@
         <div class="c-map-container">
             <div id="map" class="c-map-container__google-map"></div>
         </div>
+        <div class="c-help-modal closed">
+            <div class="info">
+                <i class="close-modal fa fa-close" onclick="closeHelpModal()"></i>
+                <h2>NYUmove Help</h2>
+                <h1>What is this Tool?</h1>
+                <p>NYUmoves is a tool for students moving to the NYU Stern School of Business. The goal is to create dynamic results using recent data that enables a student to find a neighborhood in which to live. The top left menu allows for sorting by safety score, distance from NYU, and average monthly rent price for the neighborhood.</p>
+                <h1>Where does the data come from?</h1>
+                <p>The data is freshly downloaded from a variety of open government APIs. This data is updated at least once a month to ensure that you are receiving the most accurate information.</p>
+                <h1>How Do I toggle Markers?</h1>
+                <p>The <i class="fa fa-fire-extinguisher" aria-hidden="true"></i> & <i class="fa fa-graduation-cap" aria-hidden="true"></i> near the top right toggle Fire Station markers and school markers respectively. Yellow dots indicate school locations and red dots indicate fire station locations.</p>
+                <h1>How is the safety Score (<i class="fa fa-lock" aria-hidden="true"></i>) Calculated?</h1>
+                <p>The safety score is calculated using a weigted matrix considering two equally weighted factors:</p>
+                <p>First, there is a fire score. This looks at how many fire stations are within a 1.5 mile radius of the neighborhood, which is the recommended distance by the government.</p>
+                <p>Second, there is a school safety score. This looks at how many crimes (major, violent, and property) have been reported at schools within a 1.5 mile radius of the neighborhood. Violent and Major crimes are given slightly more weight (5) than property crimes (3).</p>
+                <p>The fire score and school safety score are combined to calculate an overall safety score out of 5. This data has been logged in the console for your inspection.</p>
+                <p>A Project by Jordan Loeser<br>as participation Purdue IronHacks</p>
+            </div>
+        </div>
 
         <!-- SCRIPTS -->
         <script src="https://use.fontawesome.com/09bcebf7be.js"></script>

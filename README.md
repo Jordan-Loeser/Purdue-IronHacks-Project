@@ -1,4 +1,4 @@
-:eyes:  [View the Live Prototype](https://jordan-loeser.github.io/Purdue-IronHacks-Project/)
+[View the Live Prototype](https://jordan-loeser.github.io/Purdue-IronHacks-Project/) :eyes:
 
 ## Changelog
 

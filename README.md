@@ -1,17 +1,12 @@
-**Author:** Jordan Loeser, Purdue University Electrical Engineering 2020
+[View the Live Prototype](https://jordan-loeser.github.io/Purdue-IronHacks-Project/) :eyes:
 
-**Keywords:** Civic Hacking, Open Data, Google Maps, Web App, JavaScript
-
-**Description:** A map tool to help students searching for rental properties near NYU Stern School of Business, created as a part of the Purdue Golden IronHacks competition.
+## Changelog
 
 ### In Phase 5
 * :white_check_mark: Added Help Window
 * :white_check_mark: Added Marker Visibility Toggling
 * :white_check_mark: Added Result Sorting (Distance, Safety, and Price)
 * :white_check_mark: Calculated Safety Score using Fire & School Data (See Help Window in App)
-    * Fire Score = (num Fire Stations w/in 10 mile radius) / (avg. num Fire Stations w/in 10 mile radius)
-    * School Score = TBD
-    * Total Score = Fire Score + School Score
 * :white_check_mark: Added Temperature Reading
 * :white_check_mark: Cleaned up Visualizations
 
@@ -22,18 +17,24 @@
 * :white_check_mark: Added Loading Animation
 
 
-## Developer Experience
+## Developer Theory
 * This project uses [BEMIT naming conventions](https://csswizardry.com/2015/08/bemit-taking-the-bem-naming-convention-a-step-further/) which help organize the code into a readable and modular structure.
 * This project uses a RESTful API structure to optimize server interfacing.
 
 ### Tools Used
-* :white_check_mark: Google Maps API
-* :white_check_mark: SASS
-* :white_check_mark: D3.js
-* :white_check_mark: React.js
+* Google Maps API
+* SASS
+* D3.js
+* React.js
 
 ### Datasets Used
 * [Fire Station Data](https://data.cityofnewyork.us/resource/byk8-bdfw.json)
 * [School Safety Data](https://data.cityofnewyork.us/resource/sm8b-9vim.json)
 * [Climate Data](https://www.ncdc.noaa.gov/cdo-web/webservices/v2) -> [Documentation](https://www1.ncdc.noaa.gov/pub/data/cdo/documentation/NORMAL_MLY_documentation.pdf)
 * [Zillow Median Rental Price - One Bedroom](https://www.quandl.com/data/ZILLOW-Zillow-Real-Estate-Research?keyword=ny) (1 set Per Neighborhood/ZIP Code)
+
+**Author:** Jordan Loeser, Purdue University Electrical Engineering 2020
+
+**Keywords:** Civic Hacking, Open Data, Google Maps, Web App, JavaScript
+
+**Description:** A map tool to help students searching for rental properties near NYU Stern School of Business, created as a part of the Purdue Golden IronHacks competition.
